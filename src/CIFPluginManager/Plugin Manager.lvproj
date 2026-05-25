@@ -14,7 +14,6 @@
 		<Item Name="CIF Engine Launch.lvlib" Type="Library" URL="../Engine Launch/CIF Engine Launch.lvlib"/>
 		<Item Name="CIF Manager UI.lvlib" Type="Library" URL="../UI/CIFManagerUI Callable Library/CIF Manager UI.lvlib"/>
 		<Item Name="CIF_Manager_UI.lvclass" Type="LVClass" URL="../UI/CIFManagerUI Class/CIF_Manager_UI.lvclass"/>
-		<Item Name="CIFManagerClientWrapper.lvlib" Type="Library" URL="/&lt;vilib&gt;/CIF Foundation/CIF Core/CIFPluginManager/gRPC/CIF_Manager_Client_Wrapper/CIFManagerClientWrapper.lvlib"/>
 		<Item Name="CIFPluginLoader.lvclass" Type="LVClass" URL="../CIFPluginLoader/CIFPluginLoader.lvclass"/>
 		<Item Name="CIFPluginManager.lvclass" Type="LVClass" URL="../CIFPluginManager/CIFPluginManager.lvclass"/>
 		<Item Name="Dependencies" Type="Dependencies">
@@ -35,6 +34,7 @@
 				<Item Name="CIFCorePlugin_client.lvlib" Type="Library" URL="/&lt;vilib&gt;/CIF Foundation/CIF Core/CIFCore/Grpc/CIFCorePlugin_client/CIFCorePlugin_client.lvlib"/>
 				<Item Name="CIFCoreWrapper.lvlib" Type="Library" URL="/&lt;vilib&gt;/CIF Foundation/CIF Core/CIFCore/Grpc/CIFCoreWrapper/CIFCoreWrapper.lvlib"/>
 				<Item Name="CIFLogs.lvlib" Type="Library" URL="/&lt;vilib&gt;/CIF Foundation/CIF Core/CIFUtilities/CIFLogs/CIFLogs.lvlib"/>
+				<Item Name="CIFManagerClientWrapper.lvlib" Type="Library" URL="/&lt;vilib&gt;/CIF Foundation/CIF Core/CIFPluginManager/gRPC/CIF_Manager_Client_Wrapper/CIFManagerClientWrapper.lvlib"/>
 				<Item Name="Clear Errors.vi" Type="VI" URL="/&lt;vilib&gt;/Utility/error.llb/Clear Errors.vi"/>
 				<Item Name="Create NI GUID.vi" Type="VI" URL="/&lt;vilib&gt;/string/Create NI GUID.vi"/>
 				<Item Name="DataTypes_CIF_U.lvlib" Type="Library" URL="/&lt;vilib&gt;/CIF Foundation/CIF Utilities/DataTypes/DataTypes_CIF_U.lvlib"/>

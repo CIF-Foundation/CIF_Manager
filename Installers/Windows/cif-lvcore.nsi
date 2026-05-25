@@ -2,8 +2,18 @@
 ;
 ; Installs files from resource\ to C:\Users\Public\Documents\,
 ; preserving the directory structure under resource\.
+;
+; build_nsis.bat stages resource\ and copies canonical protos from
+; ..\..\src\protos before invoking makensis with /DRESOURCE_DIR=...
+
+!ifndef RESOURCE_DIR
+  !define RESOURCE_DIR "resource"
+!endif
 
 !include "MUI2.nsh"
+
+!define MUI_ICON "cif_icon.ico"
+!define MUI_UNICON "cif_icon.ico"
 
 !define PRODUCT_NAME "CIF LVCore"
 !define PRODUCT_VERSION "2.0.1.0"
@@ -32,7 +42,7 @@ ShowUnInstDetails show
 
 Section "Install"
   SetOutPath "${INSTALL_DIR}"
-  File /r "resource\*"
+  File /r "${RESOURCE_DIR}\*"
 
   SetOutPath "${UNINSTALL_DIR}"
   WriteUninstaller "${UNINSTALL_DIR}\${UNINSTALLER_NAME}"
