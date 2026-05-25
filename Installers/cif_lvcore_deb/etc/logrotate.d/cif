@@ -1,0 +1,10 @@
+/var/local/cif/logs/*.log {
+    daily
+    rotate 7
+    missingok
+    notifempty
+    compress
+    postrotate
+        /usr/lib/rsyslog/rsyslog-rotate
+    endscript
+}

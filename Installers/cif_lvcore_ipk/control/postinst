@@ -1,0 +1,47 @@
+# Set permissions for the startup executable
+chmod 777 /usr/local/cif/manager/cif_manager_startup_21.rtexe
+chmod 777 /usr/local/cif/manager/cif_manager_startup_23.rtexe
+chmod 777 /usr/local/cif/manager/loaders/cif_plugin_loader_startup_21.rtexe
+chmod 777 /usr/local/cif/manager/loaders/cif_plugin_loader_startup_23.rtexe
+chmod 777 /usr/local/cif/manager/loaders/launch_lvrt_cif.sh
+# Set permissions for all files and folders in CIF
+chmod -R 777 /usr/local/cif
+# Set permissions for python launcher file
+chmod 777 /usr/local/bin/launch_rt.py
+
+# create the log files if they don't exist
+touch /var/local/cif/logs/cif_info.log
+touch /var/local/cif/logs/cif_error.log
+touch /var/local/cif/logs/cif_config.log
+# Set permissions for log file
+chmod -R 777 /var/local/cif/logs
+
+# Get the loaded version of labview realtime
+lv_version="$(opkg list-installed | grep labview-realtime)"
+# Create a regular expression to search for the version number (the first number in the message)
+re="([0-9]+)"
+# Check for the version number and create a link to the appropriate startup executable.
+if [[ $lv_version =~ $re ]]
+    then
+        lv_version="${BASH_REMATCH[1]}"
+    if [ $lv_version == 21 ] 
+        then
+        ln -s /usr/local/cif/manager/cif_manager_startup_21.rtexe /usr/local/cif/manager/cif_manager_startup.rtexe
+        ln -s /usr/local/cif/manager/loaders/cif_plugin_loader_startup_21.rtexe /usr/local/cif/manager/loaders/cif_plugin_loader_startup.rtexe  
+        echo "Setting cif_startup version 21"
+    elif [ $lv_version == 23 ] 
+        then
+        ln -s /usr/local/cif/manager/cif_manager_startup_23.rtexe /usr/local/cif/manager/cif_manager_startup.rtexe
+        ln -s /usr/local/cif/manager/loaders/cif_plugin_loader_startup_23.rtexe /usr/local/cif/manager/loaders/cif_plugin_loader_startup.rtexe  
+        echo "Setting cif_startup version 23"
+    else    
+        echo "Detected version LabVIEW ${lv_version} is unsupported.  Versions 21, and 23 supported."
+    fi
+else
+    echo "LabVIEW Version could not be parsed.  Check the version parsing, the script may need to be updated"
+fi
+
+ldconfig
+
+#Restart syslog
+/etc/init.d/syslog restart

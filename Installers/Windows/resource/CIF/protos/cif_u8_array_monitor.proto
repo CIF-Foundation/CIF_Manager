@@ -1,0 +1,35 @@
+syntax = "proto3";
+
+import "cif_common.proto";
+
+package cif.u8arraymonitor;
+
+service U8ArrayMonitor {
+  rpc SetEnableU8Array (SetEnableU8ArrayRequest) returns (SetEnableU8ArrayResponse) {}
+  rpc GetU8Array (GetU8ArrayRequest) returns (GetU8ArrayResponse) {}
+}
+
+message U8Arrays {
+   repeated U8Array u8_array = 1;
+   bool valid = 2;
+}
+
+message U8Array {
+   bytes u8_array = 1;
+   int64 timestamp = 2;
+}
+
+message SetEnableU8ArrayRequest {
+   bool enable_u8_array = 1;
+   uint32 history_depth = 2; //The number of U8 arrays to return.  Provide a history of messages.
+}
+
+message SetEnableU8ArrayResponse {
+   cif.common.Status status = 1;
+}
+
+message GetU8ArrayRequest {}
+
+message GetU8ArrayResponse {
+   U8Arrays u8arrays = 1;
+}

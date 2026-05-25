@@ -1,0 +1,134 @@
+syntax = "proto3";
+
+import "cif_common.proto";
+
+package cif.management_common;
+
+message PluginMetadata {
+  string description = 1;
+  string history = 2;
+  string author = 3;
+}
+
+//////////// Channel Common //////////////////////
+
+message Channels {
+  repeated Channel channels = 1;
+}
+
+message Channel {
+  string name = 1;
+  ChannelDirection direction = 2;  
+  string type = 3;  //This field describes the channel type.  From LabVIEW it is typically the name of the channel class.
+  bytes custom_config = 4;  //This field allows passing free form custom data needed to describe the channel and to support operations such as creating connections.  It's implementation will be type specific. 
+  bool connected = 5;
+  string connected_name = 6;  //This is only valid for subscribers.  Publishers typically have no knowledge of connections.  
+  bool forced = 7; //Indicates if the value is being "forced" to always return a specific override value.  This only applies to tags
+  ChannelPattern channel_pattern = 8; //Indicates the pattern of the channel and is used for channel management and linking.
+}
+
+enum ChannelDirection {
+  CHANNELDIRECTION_UNKNOWN = 0;
+  CHANNELDIRECTION_PUBLISHER = 1;
+  CHANNELDIRECTION_SUBSCRIBER = 2;
+}
+
+enum ChannelPattern {
+  CHANNELPATTERN_UNKNOWN = 0;
+  CHANNELPATTERN_TAG = 1;
+  CHANNELPATTERN_FIFO = 2;
+  CHANNELPATTERN_MULTIFIFO = 3;
+  CHANNELPATTERN_BACKPRESSUREFIFO = 4;
+}
+
+//All filter settings are AND so channel must pass all to return.
+message ChannelFilter {
+  string name_regex = 1;  //Regular expression to filter the name
+  ChannelDirection direction = 2; //Filter for direction
+  bool direction_filter = 3; //Sets if the direction filter is active
+  string type_regex = 4;  //Regular expression to filter the type
+  bool forced = 5; //Filter for forced
+  bool forced_filter = 6; //Sets if the force filter is active
+}
+
+/////////Plugin Statistics and Status Common ////////////
+ 
+message PluginStatusData {
+  enum PluginState {
+    PLUGINSTATE_UNKNOWN = 0;
+    PLUGINSTATE_CREATING = 1;
+    PLUGINSTATE_LISTENING = 2;
+    PLUGINSTATE_RUNNING = 3;
+    PLUGINSTATE_CLEANINGUP = 4;
+    PLUGINSTATE_DESTROYING = 5;
+  }
+  PluginState state = 1;
+  TimingStatistics timing_statistics = 2;
+  FifoStatistics fifo_statistics = 3;
+  Error error = 4;
+  MonitorDoubles monitor_doubles = 5;
+  MonitorU64 monitor_u64s = 6;
+  MonitorI64 monitor_i64s = 7;
+}
+
+message TimingStatistics {
+  cif.common.TimingStats period = 1;
+  cif.common.TimingStats wake_error = 2;
+  cif.common.TimingStats execute = 3;
+  cif.common.TimingStats housekeep = 4;
+  cif.common.TimingStats idle = 5;
+  cif.common.TimingStats cleanup = 6;
+  cif.common.TimingStats custom_1 = 7;
+  cif.common.TimingStats custom_2 = 8;
+}
+
+message FifoStatistics {
+  cif.common.TimingStats from_t0 = 1;
+  cif.common.TimingStats from_previous_plugin = 2;
+  cif.common.TimingStats output_error = 3;
+}
+
+message MonitorDoubles {
+  double double_1 = 1;
+  double double_2 = 2;
+  double double_3 = 3;
+  double double_4 = 4;
+}
+
+message MonitorU64 {
+  uint64 u64_1 = 1;
+  uint64 u64_2 = 2;
+  uint64 u64_3 = 3;
+  uint64 u64_4 = 4;
+}
+
+message MonitorI64 {
+  int64 i64_1 = 1;
+  int64 i64_2 = 2;
+  int64 i64_3 = 3;
+  int64 i64_4 = 4;
+}
+
+message Error {
+  bool status = 1;
+  int32 code = 2;
+}
+
+////////Loader Common ////////
+
+enum LoaderType {
+  LOADERTYPE_UNKNOWN = 0;
+  LOADERTYPE_LABVIEW = 1;
+  }
+
+message LoaderInfo {
+  LoaderType loader_type = 1;
+  string loader_name = 2;
+}
+
+message LoaderInfoFull {
+  LoaderType loader_type = 1;
+  string loader_name = 2;
+  int32 grpc_port = 3;
+  uint32 pid = 4;
+}

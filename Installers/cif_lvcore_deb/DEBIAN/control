@@ -1,0 +1,6 @@
+Package: cif-lvcore
+Version: 0.3.5.0
+Architecture: amd64
+Maintainer: todd@ext.applied.co
+Description: This provides the required libraries to CIF support for LabVIEW.
+Priority: optional

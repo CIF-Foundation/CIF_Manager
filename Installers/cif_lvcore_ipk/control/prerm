@@ -1,0 +1,2 @@
+unlink /usr/local/cif/manager/cif_manager_startup.rtexe
+unlink /usr/local/cif/manager/loaders/cif_plugin_loader_startup.rtexe 

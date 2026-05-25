@@ -1,0 +1,41 @@
+# Set permissions for the startup executables and gRPC library
+# chmod 666 /usr/local/cif/manager/cif_startup_21.rtexe  Need to update once we have a launcher file for Ubuntu
+# Set permissions for all files and folders in CIF
+chmod -R 777 /usr/local/cif
+# Set permissions for log file
+chmod -R 775 /var/local/cif/logs
+# Set permissions for python launcher file
+chmod 777 /usr/local/bin/launch_rt.py
+
+#Setup rsyslog
+mkdir -p /var/local/cif/logs
+chown -R syslog:adm /var/local/cif/logs
+
+# Set apparmor to allow rsyslog access.
+# Define variables for apparmor
+FILE_PATH="/etc/apparmor.d/local/usr.sbin.rsyslogd"
+LINE1="/var/local/cif/logs/ r,"
+LINE2="/var/local/cif/logs/** rw,"
+
+# 1. Ensure the parent directory exists
+mkdir -p "$(dirname "$FILE_PATH")"
+
+# 2. Create the file if it doesn't exist (touch)
+if [ ! -f "$FILE_PATH" ]; then
+    touch "$FILE_PATH"
+    echo "Created file: $FILE_PATH"
+fi
+
+# 3. Add the lines if they are not already present
+for LINE in "$LINE1" "$LINE2"; do
+    if ! grep -Fxq "$LINE" "$FILE_PATH"; then
+        echo "$LINE" | sudo tee -a "$FILE_PATH" > /dev/null
+        echo "Added to $FILE_PATH: $LINE"
+    else
+        echo "Line already exists, skipping: $LINE"
+    fi
+done
+
+# 4. Reload the AppArmor profile to apply changes
+/sbin/apparmor_parser -r /etc/apparmor.d/usr.sbin.rsyslogd
+echo "AppArmor rsyslogd profile reloaded."
