@@ -1,8 +1,10 @@
 # Set permissions for the startup executable
 chmod 777 /usr/local/cif/manager/cif_manager_startup_21.rtexe
 chmod 777 /usr/local/cif/manager/cif_manager_startup_23.rtexe
+chmod 777 /usr/local/cif/manager/cif_manager_startup_25.rtexe
 chmod 777 /usr/local/cif/manager/loaders/cif_plugin_loader_startup_21.rtexe
 chmod 777 /usr/local/cif/manager/loaders/cif_plugin_loader_startup_23.rtexe
+chmod 777 /usr/local/cif/manager/loaders/cif_plugin_loader_startup_25.rtexe
 chmod 777 /usr/local/cif/manager/loaders/launch_lvrt_cif.sh
 # Set permissions for all files and folders in CIF
 chmod -R 777 /usr/local/cif
@@ -34,8 +36,13 @@ if [[ $lv_version =~ $re ]]
         ln -s /usr/local/cif/manager/cif_manager_startup_23.rtexe /usr/local/cif/manager/cif_manager_startup.rtexe
         ln -s /usr/local/cif/manager/loaders/cif_plugin_loader_startup_23.rtexe /usr/local/cif/manager/loaders/cif_plugin_loader_startup.rtexe  
         echo "Setting cif_startup version 23"
+    elif [ $lv_version == 25 ] 
+        then
+        ln -s /usr/local/cif/manager/cif_manager_startup_25.rtexe /usr/local/cif/manager/cif_manager_startup.rtexe
+        ln -s /usr/local/cif/manager/loaders/cif_plugin_loader_startup_25.rtexe /usr/local/cif/manager/loaders/cif_plugin_loader_startup.rtexe  
+        echo "Setting cif_startup version 25"
     else    
-        echo "Detected version LabVIEW ${lv_version} is unsupported.  Versions 21, and 23 supported."
+        echo "Detected version LabVIEW ${lv_version} is unsupported.  Versions 21, 23, and 25 supported."
     fi
 else
     echo "LabVIEW Version could not be parsed.  Check the version parsing, the script may need to be updated"

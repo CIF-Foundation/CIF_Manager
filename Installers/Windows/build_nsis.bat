@@ -22,7 +22,7 @@ if not exist "%SRC_PROTOS%" (
 if exist "%STAGING%" rmdir /s /q "%STAGING%"
 
 echo Staging installer resources...
-xcopy "%RESOURCE%" "%STAGING%\resource" /E /I /Q /Y >nul
+xcopy "%RESOURCE%\*" "%STAGING%\resource\" /E /I /Q /Y >nul
 if errorlevel 1 (
   echo Error: Failed to stage installer resources.
   popd
@@ -30,7 +30,7 @@ if errorlevel 1 (
 )
 
 echo Copying protos from src\protos...
-xcopy "%SRC_PROTOS%" "%STAGING%\resource\CIF\protos" /Y /Q >nul
+xcopy "%SRC_PROTOS%\*" "%STAGING%\resource\CIF\protos\" /I /Y /Q >nul
 if errorlevel 1 (
   echo Error: Failed to copy protos from src\protos.
   popd
@@ -43,6 +43,6 @@ if errorlevel 1 (
   exit /b 1
 )
 
-echo Successfully created cif-lvcore-2.0.1.0.exe
+echo Successfully created cif-lvcore-2.1.0.0.exe
 popd
 endlocal
