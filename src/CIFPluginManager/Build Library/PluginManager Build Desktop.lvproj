@@ -800,7 +800,7 @@
 				<Property Name="TgtF_targetfileName" Type="Str">LV_PluginLoader.dll</Property>
 				<Property Name="TgtF_versionIndependent" Type="Bool">true</Property>
 			</Item>
-			<Item Name="LV_PluginLoader SO" Type="DLL">
+			<Item Name="LV_PluginLoader_SO" Type="DLL">
 				<Property Name="App_copyErrors" Type="Bool">true</Property>
 				<Property Name="App_INI_aliasGUID" Type="Str">{1115D9F2-09A7-4556-80C8-32F78ABD0C11}</Property>
 				<Property Name="App_INI_GUID" Type="Str">{80A9CA20-DA44-468F-B6BD-C1BFBF006CFA}</Property>
@@ -809,7 +809,7 @@
 				<Property Name="Bld_autoIncrement" Type="Bool">true</Property>
 				<Property Name="Bld_buildCacheID" Type="Str">{3F70E679-325F-4E6A-899B-BB2744F41022}</Property>
 				<Property Name="Bld_buildSpecDescription" Type="Str">This creates a so for the Plugin Loader.  This allows the CIF Manager to dynamically spawn new loader processes.  On Linux this is usr/local/cif/manager/loaders</Property>
-				<Property Name="Bld_buildSpecName" Type="Str">LV_PluginLoader SO</Property>
+				<Property Name="Bld_buildSpecName" Type="Str">LV_PluginLoader_SO</Property>
 				<Property Name="Bld_excludeInlineSubVIs" Type="Bool">true</Property>
 				<Property Name="Bld_excludeLibraryItems" Type="Bool">true</Property>
 				<Property Name="Bld_excludePolymorphicVIs" Type="Bool">true</Property>
@@ -819,7 +819,7 @@
 				<Property Name="Bld_version.build" Type="Int">16</Property>
 				<Property Name="Bld_version.major" Type="Int">1</Property>
 				<Property Name="Destination[0].destName" Type="Str">LV_PluginLoader.dll</Property>
-				<Property Name="Destination[0].path" Type="Path">/D/dev/builds/PluginManager/win/pluginloader/LV_PluginLoader SO.dll</Property>
+				<Property Name="Destination[0].path" Type="Path">/D/dev/builds/PluginManager/win/pluginloader/LV_PluginLoader_SO.dll</Property>
 				<Property Name="Destination[0].path.type" Type="Str">&lt;none&gt;</Property>
 				<Property Name="Destination[0].preserveHierarchy" Type="Bool">true</Property>
 				<Property Name="Destination[0].type" Type="Str">App</Property>
@@ -832,7 +832,7 @@
 				<Property Name="Dll_headerGUID" Type="Str">{0EAF97A2-F03B-45C0-B46E-8E81505C8A57}</Property>
 				<Property Name="Dll_libGUID" Type="Str">{A36598C2-9502-4C2F-82EF-B9B382CDD5C8}</Property>
 				<Property Name="Dll_privateExecSys" Type="Bool">true</Property>
-				<Property Name="Source[0].itemID" Type="Str">{332002A8-A071-4C86-899A-C506E4F112AA}</Property>
+				<Property Name="Source[0].itemID" Type="Str">{59F994F5-4F48-408F-983B-A05466161C53}</Property>
 				<Property Name="Source[0].type" Type="Str">Container</Property>
 				<Property Name="Source[1].destinationIndex" Type="Int">0</Property>
 				<Property Name="Source[1].itemID" Type="Ref">/My Computer/PluginLoader.lvlib/Loader.vi</Property>

@@ -710,11 +710,11 @@
 				<Property Name="TgtF_targetfileName" Type="Str">CIF Manager UI.3.0.2.lvlibp</Property>
 				<Property Name="TgtF_versionIndependent" Type="Bool">true</Property>
 			</Item>
-			<Item Name="Plugin Manager UI Versioned Linux" Type="Packed Library">
+			<Item Name="Plugin_Manager_UI_Versioned_Linux" Type="Packed Library">
 				<Property Name="Bld_autoIncrement" Type="Bool">true</Property>
 				<Property Name="Bld_buildCacheID" Type="Str">{AA90A31D-05C5-45FC-9A51-EA442BE0B622}</Property>
 				<Property Name="Bld_buildSpecDescription" Type="Str">This packed library will be dynamically loaded by the Manager UI application.  It needs to be located in the ui_plugin directory.  On Linux usr/local/cif/ui_plugins</Property>
-				<Property Name="Bld_buildSpecName" Type="Str">Plugin Manager UI Versioned Linux</Property>
+				<Property Name="Bld_buildSpecName" Type="Str">Plugin_Manager_UI_Versioned_Linux</Property>
 				<Property Name="Bld_excludeLibraryItems" Type="Bool">true</Property>
 				<Property Name="Bld_excludePolymorphicVIs" Type="Bool">true</Property>
 				<Property Name="Bld_localDestDir" Type="Path">/D/dev/builds/PluginManager/UI</Property>
@@ -733,7 +733,7 @@
 				<Property Name="Destination[1].path.type" Type="Str">&lt;none&gt;</Property>
 				<Property Name="DestinationCount" Type="Int">2</Property>
 				<Property Name="PackedLib_callersAdapt" Type="Bool">true</Property>
-				<Property Name="Source[0].itemID" Type="Str">{A332686F-CDDF-468A-B613-545D4CDD9840}</Property>
+				<Property Name="Source[0].itemID" Type="Str">{85CAECE5-8F6F-44BC-B9B4-95C533E9E61F}</Property>
 				<Property Name="Source[0].type" Type="Str">Container</Property>
 				<Property Name="Source[1].destinationIndex" Type="Int">0</Property>
 				<Property Name="Source[1].itemID" Type="Ref">/My Computer/CIF Manager UI.lvlib</Property>
@@ -753,7 +753,7 @@
 				<Property Name="TgtF_targetfileName" Type="Str">CIF Manager UI.3.0.2.lvlibp</Property>
 				<Property Name="TgtF_versionIndependent" Type="Bool">true</Property>
 			</Item>
-			<Item Name="CIF Manager Application Linux" Type="EXE">
+			<Item Name="CIF_Manager_Application_Linux" Type="EXE">
 				<Property Name="App_copyErrors" Type="Bool">true</Property>
 				<Property Name="App_INI_aliasGUID" Type="Str">{5258C506-513F-47E1-85F9-B012BE04CF4E}</Property>
 				<Property Name="App_INI_GUID" Type="Str">{F79A4D8C-6599-4EEB-937D-54AFEE5DE49C}</Property>
@@ -762,7 +762,7 @@
 				<Property Name="Bld_autoIncrement" Type="Bool">true</Property>
 				<Property Name="Bld_buildCacheID" Type="Str">{A6744734-2D22-423A-B768-7D877BD0E1AE}</Property>
 				<Property Name="Bld_buildSpecDescription" Type="Str">This executable will connect to running CIF Managers and provide a dynamic UI.  It will dynamically load subpanels.  The subpanels, including the manager UI subpanels, will be loaded from the CIF directory.  Standard path is usr/local/cif/ui_plugins</Property>
-				<Property Name="Bld_buildSpecName" Type="Str">CIF Manager Application Linux</Property>
+				<Property Name="Bld_buildSpecName" Type="Str">CIF_Manager_Application_Linux</Property>
 				<Property Name="Bld_excludeInlineSubVIs" Type="Bool">true</Property>
 				<Property Name="Bld_excludeLibraryItems" Type="Bool">true</Property>
 				<Property Name="Bld_excludePolymorphicVIs" Type="Bool">true</Property>
@@ -771,8 +771,8 @@
 				<Property Name="Bld_previewCacheID" Type="Str">{5A37E9B1-A2F6-4A02-81FB-9A4FE2546839}</Property>
 				<Property Name="Bld_version.build" Type="Int">36</Property>
 				<Property Name="Bld_version.major" Type="Int">1</Property>
-				<Property Name="Destination[0].destName" Type="Str">CIF Manager UI.exe</Property>
-				<Property Name="Destination[0].path" Type="Path">/D/dev/builds/PluginManager/UI/CIF Manager UI.exe</Property>
+				<Property Name="Destination[0].destName" Type="Str">CIF_Manager_UI.exe</Property>
+				<Property Name="Destination[0].path" Type="Path">/D/dev/builds/PluginManager/UI/CIF_Manager_UI.exe</Property>
 				<Property Name="Destination[0].path.type" Type="Str">&lt;none&gt;</Property>
 				<Property Name="Destination[0].preserveHierarchy" Type="Bool">true</Property>
 				<Property Name="Destination[0].type" Type="Str">App</Property>
@@ -781,7 +781,7 @@
 				<Property Name="Destination[1].path.type" Type="Str">&lt;none&gt;</Property>
 				<Property Name="DestinationCount" Type="Int">2</Property>
 				<Property Name="Exe_iconItemID" Type="Ref">/My Computer/cif_icon.ico</Property>
-				<Property Name="Source[0].itemID" Type="Str">{A332686F-CDDF-468A-B613-545D4CDD9840}</Property>
+				<Property Name="Source[0].itemID" Type="Str">{85CAECE5-8F6F-44BC-B9B4-95C533E9E61F}</Property>
 				<Property Name="Source[0].type" Type="Str">Container</Property>
 				<Property Name="Source[1].destinationIndex" Type="Int">0</Property>
 				<Property Name="Source[1].itemID" Type="Ref">/My Computer/CIF Manager UI.lvlib/CIF Manager UI.vi</Property>
@@ -813,7 +813,7 @@
 				<Property Name="TgtF_legalCopyright" Type="Str">Copyright © 2025 CIF Foundation</Property>
 				<Property Name="TgtF_productName" Type="Str">CIF Manager UI</Property>
 				<Property Name="TgtF_targetfileGUID" Type="Str">{D1FE58A2-29B8-46F8-8B64-701333C24091}</Property>
-				<Property Name="TgtF_targetfileName" Type="Str">CIF Manager UI.exe</Property>
+				<Property Name="TgtF_targetfileName" Type="Str">CIF_Manager_UI.exe</Property>
 				<Property Name="TgtF_versionIndependent" Type="Bool">true</Property>
 			</Item>
 		</Item>
