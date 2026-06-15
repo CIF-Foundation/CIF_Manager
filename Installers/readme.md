@@ -1,5 +1,6 @@
 Instructions to build installers for RT (ipk) and Ubuntu (deb)
 Update the version in both control files (ipk and deb)
+Copy and replace the proto files
 In terminal run <wsl> to enter Windows Subsystem for Linux
 Copy the installers directory to the home directory <cp -r  /mnt/d/dev/CIF_Manager/Installers/ ~/installers>
 Run the builds <bash ~/installers/build_deb.sh>  <bash ~/installers/build_ipk.sh>

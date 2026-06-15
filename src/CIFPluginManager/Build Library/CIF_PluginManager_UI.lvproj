@@ -557,11 +557,11 @@
 			<Item Name="provcom_CheckChannelControlConPane.vi" Type="VI" URL="/&lt;resource&gt;/Framework/Providers/Common/provcom_CheckChannelControlConPane.vi"/>
 		</Item>
 		<Item Name="Build Specifications" Type="Build">
-			<Item Name="Plugin Manager UI" Type="Packed Library">
+			<Item Name="Plugin Manager UI Inst Studio" Type="Packed Library">
 				<Property Name="Bld_autoIncrement" Type="Bool">true</Property>
 				<Property Name="Bld_buildCacheID" Type="Str">{3D28E8C5-785F-4CA5-B7DC-8F661785E925}</Property>
 				<Property Name="Bld_buildSpecDescription" Type="Str">This packed library is intended to be used with Instrument Studio. It will create the packed library and the required gdata file.  </Property>
-				<Property Name="Bld_buildSpecName" Type="Str">Plugin Manager UI</Property>
+				<Property Name="Bld_buildSpecName" Type="Str">Plugin Manager UI Inst Studio</Property>
 				<Property Name="Bld_excludeLibraryItems" Type="Bool">true</Property>
 				<Property Name="Bld_excludePolymorphicVIs" Type="Bool">true</Property>
 				<Property Name="Bld_localDestDir" Type="Path">/D/dev/builds/PluginManager/UI</Property>
@@ -582,7 +582,7 @@
 				<Property Name="Destination[1].path.type" Type="Str">&lt;none&gt;</Property>
 				<Property Name="DestinationCount" Type="Int">2</Property>
 				<Property Name="PackedLib_callersAdapt" Type="Bool">true</Property>
-				<Property Name="Source[0].itemID" Type="Str">{084EDD1A-CFBD-4142-8415-FEE7DD3B264B}</Property>
+				<Property Name="Source[0].itemID" Type="Str">{A332686F-CDDF-468A-B613-545D4CDD9840}</Property>
 				<Property Name="Source[0].type" Type="Str">Container</Property>
 				<Property Name="Source[1].destinationIndex" Type="Int">0</Property>
 				<Property Name="Source[1].itemID" Type="Ref">/My Computer/CIF Manager UI.lvlib</Property>
@@ -594,10 +594,10 @@
 				<Property Name="Source[1].type" Type="Str">Library</Property>
 				<Property Name="SourceCount" Type="Int">2</Property>
 				<Property Name="TgtF_companyName" Type="Str">CIF Foundation</Property>
-				<Property Name="TgtF_fileDescription" Type="Str">CIF Plugin Manager UI</Property>
-				<Property Name="TgtF_internalName" Type="Str">CIF Plugin Manager UI</Property>
+				<Property Name="TgtF_fileDescription" Type="Str">CIF Plugin Manager UI Inst Studio</Property>
+				<Property Name="TgtF_internalName" Type="Str">CIF Plugin Manager UI Inst Studio</Property>
 				<Property Name="TgtF_legalCopyright" Type="Str">Copyright © 2025 CIF Foundation</Property>
-				<Property Name="TgtF_productName" Type="Str">CIF Plugin Manager UI</Property>
+				<Property Name="TgtF_productName" Type="Str">CIF Plugin Manager UI Inst Studio</Property>
 				<Property Name="TgtF_targetfileGUID" Type="Str">{F7659C57-F4CE-491C-8E27-3332458AFB6A}</Property>
 				<Property Name="TgtF_targetfileName" Type="Str">CIF_PluginManager_UI.lvlibp</Property>
 				<Property Name="TgtF_versionIndependent" Type="Bool">true</Property>
@@ -708,6 +708,112 @@
 				<Property Name="TgtF_productName" Type="Str">CIF Plugin Manager UI</Property>
 				<Property Name="TgtF_targetfileGUID" Type="Str">{56F3B932-BF2D-4EB9-BBC5-A57E377CD51D}</Property>
 				<Property Name="TgtF_targetfileName" Type="Str">CIF Manager UI.3.0.2.lvlibp</Property>
+				<Property Name="TgtF_versionIndependent" Type="Bool">true</Property>
+			</Item>
+			<Item Name="Plugin_Manager_UI_Versioned_Linux" Type="Packed Library">
+				<Property Name="Bld_autoIncrement" Type="Bool">true</Property>
+				<Property Name="Bld_buildCacheID" Type="Str">{AA90A31D-05C5-45FC-9A51-EA442BE0B622}</Property>
+				<Property Name="Bld_buildSpecDescription" Type="Str">This packed library will be dynamically loaded by the Manager UI application.  It needs to be located in the ui_plugin directory.  On Linux usr/local/cif/ui_plugins</Property>
+				<Property Name="Bld_buildSpecName" Type="Str">Plugin_Manager_UI_Versioned_Linux</Property>
+				<Property Name="Bld_excludeLibraryItems" Type="Bool">true</Property>
+				<Property Name="Bld_excludePolymorphicVIs" Type="Bool">true</Property>
+				<Property Name="Bld_localDestDir" Type="Path">/D/dev/builds/PluginManager/UI</Property>
+				<Property Name="Bld_modifyLibraryFile" Type="Bool">true</Property>
+				<Property Name="Bld_previewCacheID" Type="Str">{FEC208A4-B241-41E8-AD7F-0A5A4C5D3441}</Property>
+				<Property Name="Bld_version.build" Type="Int">2</Property>
+				<Property Name="Bld_version.major" Type="Int">3</Property>
+				<Property Name="Bld_version.patch" Type="Int">2</Property>
+				<Property Name="Destination[0].destName" Type="Str">CIF Manager UI.3.0.2.lvlibp</Property>
+				<Property Name="Destination[0].path" Type="Path">/D/dev/builds/PluginManager/UI/CIF Manager UI.3.0.2.lvlibp</Property>
+				<Property Name="Destination[0].path.type" Type="Str">&lt;none&gt;</Property>
+				<Property Name="Destination[0].preserveHierarchy" Type="Bool">true</Property>
+				<Property Name="Destination[0].type" Type="Str">App</Property>
+				<Property Name="Destination[1].destName" Type="Str">Support Directory</Property>
+				<Property Name="Destination[1].path" Type="Path">/D/dev/builds/PluginManager/UI</Property>
+				<Property Name="Destination[1].path.type" Type="Str">&lt;none&gt;</Property>
+				<Property Name="DestinationCount" Type="Int">2</Property>
+				<Property Name="PackedLib_callersAdapt" Type="Bool">true</Property>
+				<Property Name="Source[0].itemID" Type="Str">{85CAECE5-8F6F-44BC-B9B4-95C533E9E61F}</Property>
+				<Property Name="Source[0].type" Type="Str">Container</Property>
+				<Property Name="Source[1].destinationIndex" Type="Int">0</Property>
+				<Property Name="Source[1].itemID" Type="Ref">/My Computer/CIF Manager UI.lvlib</Property>
+				<Property Name="Source[1].Library.allowMissingMembers" Type="Bool">true</Property>
+				<Property Name="Source[1].Library.atomicCopy" Type="Bool">true</Property>
+				<Property Name="Source[1].Library.LVLIBPtopLevel" Type="Bool">true</Property>
+				<Property Name="Source[1].preventRename" Type="Bool">true</Property>
+				<Property Name="Source[1].sourceInclusion" Type="Str">TopLevel</Property>
+				<Property Name="Source[1].type" Type="Str">Library</Property>
+				<Property Name="SourceCount" Type="Int">2</Property>
+				<Property Name="TgtF_companyName" Type="Str">CIF Foundation</Property>
+				<Property Name="TgtF_fileDescription" Type="Str">CIF Plugin Manager UI</Property>
+				<Property Name="TgtF_internalName" Type="Str">CIF Plugin Manager UI</Property>
+				<Property Name="TgtF_legalCopyright" Type="Str">Copyright © 2025 CIF Foundation</Property>
+				<Property Name="TgtF_productName" Type="Str">CIF Plugin Manager UI</Property>
+				<Property Name="TgtF_targetfileGUID" Type="Str">{20309B80-C26C-466B-A4EE-5F6983143D26}</Property>
+				<Property Name="TgtF_targetfileName" Type="Str">CIF Manager UI.3.0.2.lvlibp</Property>
+				<Property Name="TgtF_versionIndependent" Type="Bool">true</Property>
+			</Item>
+			<Item Name="CIF_Manager_Application_Linux" Type="EXE">
+				<Property Name="App_copyErrors" Type="Bool">true</Property>
+				<Property Name="App_INI_aliasGUID" Type="Str">{5258C506-513F-47E1-85F9-B012BE04CF4E}</Property>
+				<Property Name="App_INI_GUID" Type="Str">{F79A4D8C-6599-4EEB-937D-54AFEE5DE49C}</Property>
+				<Property Name="App_serverConfig.httpPort" Type="Int">8002</Property>
+				<Property Name="App_serverType" Type="Int">0</Property>
+				<Property Name="Bld_autoIncrement" Type="Bool">true</Property>
+				<Property Name="Bld_buildCacheID" Type="Str">{A6744734-2D22-423A-B768-7D877BD0E1AE}</Property>
+				<Property Name="Bld_buildSpecDescription" Type="Str">This executable will connect to running CIF Managers and provide a dynamic UI.  It will dynamically load subpanels.  The subpanels, including the manager UI subpanels, will be loaded from the CIF directory.  Standard path is usr/local/cif/ui_plugins</Property>
+				<Property Name="Bld_buildSpecName" Type="Str">CIF_Manager_Application_Linux</Property>
+				<Property Name="Bld_excludeInlineSubVIs" Type="Bool">true</Property>
+				<Property Name="Bld_excludeLibraryItems" Type="Bool">true</Property>
+				<Property Name="Bld_excludePolymorphicVIs" Type="Bool">true</Property>
+				<Property Name="Bld_localDestDir" Type="Path">/D/dev/builds/PluginManager/UI</Property>
+				<Property Name="Bld_modifyLibraryFile" Type="Bool">true</Property>
+				<Property Name="Bld_previewCacheID" Type="Str">{5A37E9B1-A2F6-4A02-81FB-9A4FE2546839}</Property>
+				<Property Name="Bld_version.build" Type="Int">36</Property>
+				<Property Name="Bld_version.major" Type="Int">1</Property>
+				<Property Name="Destination[0].destName" Type="Str">CIF_Manager_UI.exe</Property>
+				<Property Name="Destination[0].path" Type="Path">/D/dev/builds/PluginManager/UI/CIF_Manager_UI.exe</Property>
+				<Property Name="Destination[0].path.type" Type="Str">&lt;none&gt;</Property>
+				<Property Name="Destination[0].preserveHierarchy" Type="Bool">true</Property>
+				<Property Name="Destination[0].type" Type="Str">App</Property>
+				<Property Name="Destination[1].destName" Type="Str">Support Directory</Property>
+				<Property Name="Destination[1].path" Type="Path">/D/dev/builds/PluginManager/UI/data</Property>
+				<Property Name="Destination[1].path.type" Type="Str">&lt;none&gt;</Property>
+				<Property Name="DestinationCount" Type="Int">2</Property>
+				<Property Name="Exe_iconItemID" Type="Ref">/My Computer/cif_icon.ico</Property>
+				<Property Name="Source[0].itemID" Type="Str">{85CAECE5-8F6F-44BC-B9B4-95C533E9E61F}</Property>
+				<Property Name="Source[0].type" Type="Str">Container</Property>
+				<Property Name="Source[1].destinationIndex" Type="Int">0</Property>
+				<Property Name="Source[1].itemID" Type="Ref">/My Computer/CIF Manager UI.lvlib/CIF Manager UI.vi</Property>
+				<Property Name="Source[1].sourceInclusion" Type="Str">TopLevel</Property>
+				<Property Name="Source[1].type" Type="Str">VI</Property>
+				<Property Name="Source[2].destinationIndex" Type="Int">0</Property>
+				<Property Name="Source[2].itemID" Type="Ref">/My Computer/CIF Manager UI.lvlib/System Subpanel.vi</Property>
+				<Property Name="Source[2].type" Type="Str">VI</Property>
+				<Property Name="Source[3].destinationIndex" Type="Int">0</Property>
+				<Property Name="Source[3].itemID" Type="Ref">/My Computer/CIF Manager UI.lvlib/Error Monitor Subpanel.vi</Property>
+				<Property Name="Source[3].type" Type="Str">VI</Property>
+				<Property Name="Source[4].destinationIndex" Type="Int">0</Property>
+				<Property Name="Source[4].itemID" Type="Ref">/My Computer/CIF Manager UI.lvlib/Channel Subpanel.vi</Property>
+				<Property Name="Source[4].type" Type="Str">VI</Property>
+				<Property Name="Source[5].destinationIndex" Type="Int">0</Property>
+				<Property Name="Source[5].itemID" Type="Ref">/My Computer/CIF Manager UI.lvlib/Plugin Wrapper Subpanel.vi</Property>
+				<Property Name="Source[5].type" Type="Str">VI</Property>
+				<Property Name="Source[6].destinationIndex" Type="Int">0</Property>
+				<Property Name="Source[6].itemID" Type="Ref">/My Computer/CIF Manager UI.lvlib/Default Plugin Subpanel.vi</Property>
+				<Property Name="Source[6].type" Type="Str">VI</Property>
+				<Property Name="Source[7].destinationIndex" Type="Int">0</Property>
+				<Property Name="Source[7].itemID" Type="Ref">/My Computer/CIF Manager UI.lvlib</Property>
+				<Property Name="Source[7].Library.allowMissingMembers" Type="Bool">true</Property>
+				<Property Name="Source[7].type" Type="Str">Library</Property>
+				<Property Name="SourceCount" Type="Int">8</Property>
+				<Property Name="TgtF_companyName" Type="Str">CIF Foundation</Property>
+				<Property Name="TgtF_fileDescription" Type="Str">CIF Manager UI</Property>
+				<Property Name="TgtF_internalName" Type="Str">CIF Manager UI</Property>
+				<Property Name="TgtF_legalCopyright" Type="Str">Copyright © 2025 CIF Foundation</Property>
+				<Property Name="TgtF_productName" Type="Str">CIF Manager UI</Property>
+				<Property Name="TgtF_targetfileGUID" Type="Str">{D1FE58A2-29B8-46F8-8B64-701333C24091}</Property>
+				<Property Name="TgtF_targetfileName" Type="Str">CIF_Manager_UI.exe</Property>
 				<Property Name="TgtF_versionIndependent" Type="Bool">true</Property>
 			</Item>
 		</Item>
