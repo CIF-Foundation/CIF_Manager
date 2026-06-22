@@ -16,6 +16,7 @@
 		<Item Name="CIF_Manager_UI.lvclass" Type="LVClass" URL="../UI/CIFManagerUI Class/CIF_Manager_UI.lvclass"/>
 		<Item Name="CIFPluginLoader.lvclass" Type="LVClass" URL="../CIFPluginLoader/CIFPluginLoader.lvclass"/>
 		<Item Name="CIFPluginManager.lvclass" Type="LVClass" URL="../CIFPluginManager/CIFPluginManager.lvclass"/>
+		<Item Name="Manager Common.lvlib" Type="Library" URL="../Common/Manager Common.lvlib"/>
 		<Item Name="Dependencies" Type="Dependencies">
 			<Item Name="vi.lib" Type="Folder">
 				<Item Name="1D String Array to Delimited String.vi" Type="VI" URL="/&lt;vilib&gt;/AdvancedString/1D String Array to Delimited String.vi"/>

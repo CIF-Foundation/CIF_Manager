@@ -27,10 +27,17 @@ import "cif_management_common.proto";
 package cif.plugincore;
 
 service PluginCore {
+  //Start by transitioning the plugin into the running state passing through the prepare state if needed.  Optionally start at a future time.
   rpc Start (StartRequest) returns (StartResponse) {}
+  //Execute the prepare logic but do not transition into running.  
+  rpc Prepare (PrepareRequest) returns (PrepareResponse) {}
+  //Pause by if running cleanup and transition to listening state.  If prepared but not running, cleanup and remain in listening state.
   rpc Pause (PauseRequest) returns (PauseResponse) {}
+  //Stop with cleanup and teardown of the plugin, removing it from the system
   rpc Stop (StopRequest) returns (StopResponse) {}
+  //Reset plugin statistics
   rpc RefreshStatistics (RefreshStatisticsRequest) returns (RefreshStatisticsResponse) {}
+  //Update the plugin configuration.  Accepts a full or partial JSON
   rpc UpdateConfig (UpdateConfigRequest) returns (UpdateConfigResponse) {}
   rpc GetStatusData (GetStatusDataRequest) returns (GetStatusDataResponse) {}
   rpc GetVersion (GetVersionRequest) returns (GetVersionResponse) {}
@@ -39,9 +46,21 @@ service PluginCore {
   rpc GetNames (GetNamesRequest) returns (GetNamesResponse) {}
 }
 
-message StartRequest {}
+message StartRequest {
+  //Future time event for start. If ommitted or set to 0 will start immediately.  
+  //Time should be absolute time according to system time.  The FTE must not be more than 10 seconds in the future.
+  //If time is set more than 10 seconds it the future it will return an errror.  
+  //FTE command will automatically reset the offset setting of the plugin to align with FTE time.
+  int64 start_fte = 1; 
+}
 
 message StartResponse {
+  cif.common.Status status = 1;
+}
+
+message PrepareRequest {}
+
+message PrepareResponse {
   cif.common.Status status = 1;
 }
 
