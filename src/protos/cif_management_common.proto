@@ -82,6 +82,8 @@ message PluginStatusData {
     PLUGINSTATE_RUNNING = 3;
     PLUGINSTATE_CLEANINGUP = 4;
     PLUGINSTATE_DESTROYING = 5;
+    PLUGINSTATE_PREPARED = 6;
+    PLUGINSTATE_FTE_RUN = 7;
   }
   PluginState state = 1;
   TimingStatistics timing_statistics = 2;
