@@ -92,25 +92,10 @@ keys_only_sorted() {
 }
 
 restore_snapshot() {
-	_snap="$WORKDIR/snapshot.ini"
-	_cifini="$WORKDIR/cif.ini"
-	_ks="$WORKDIR/keys.snap"
-	_kc="$WORKDIR/keys.cif"
-
-	keys_only_sorted "$_snap" >"$_ks"
-	keys_only_sorted "$_cifini" >"$_kc"
-
-	parse_ini_assignments "$_snap" | LC_ALL=C sort -t "$TAB" -k1,1 -k2,2 >"$WORKDIR/snap.rows"
-	while IFS="$TAB" read -r sec tok val || [ -n "$sec" ]; do
-		[ -z "$sec" ] && continue
-		"$NIRTCFG" --file "$LIVE" --set section="$sec",token="$tok",value="$val"
-	done <"$WORKDIR/snap.rows"
-
-	LC_ALL=C comm -13 "$_ks" "$_kc" >"$WORKDIR/to_clear_restore"
-	while IFS="$TAB" read -r sec tok || [ -n "$sec" ]; do
-		[ -z "$sec" ] && continue
-		"$NIRTCFG" --file "$LIVE" --clear section="$sec",token="$tok" --rm-if-empty
-	done <"$WORKDIR/to_clear_restore"
+	if ! cp -p "$WORKDIR/snapshot.ini" "$LIVE"; then
+		echo "$0: failed to restore live config from snapshot: $LIVE"
+		return 1
+	fi
 }
 
 on_exit() {
@@ -120,7 +105,9 @@ on_exit() {
 		exit "$_ex"
 	fi
 	if [ "$MUTATED" -eq 1 ] && [ -n "$WORKDIR" ] && [ -f "$WORKDIR/snapshot.ini" ]; then
-		restore_snapshot || true
+		if ! restore_snapshot; then
+			_ex=1
+		fi
 	fi
 	[ -n "$WORKDIR" ] && rm -rf "$WORKDIR" 2>/dev/null || true
 	exit "$_ex"
@@ -137,6 +124,10 @@ trap 'exit 143' TERM
 }
 [ -r "$LIVE" ] || {
 	echo "$0: cannot read live config: $LIVE" >&2
+	exit 1
+}
+[ -w "$LIVE" ] || {
+	echo "$0: cannot write live config: $LIVE" >&2
 	exit 1
 }
 [ -x "$NIRTCFG" ] || {
