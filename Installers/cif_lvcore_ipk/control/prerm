@@ -1,13 +1,2 @@
 unlink /usr/local/cif/manager/cif_manager_startup.rtexe
 unlink /usr/local/cif/manager/loaders/cif_plugin_loader_startup.rtexe 
-
-# 1. Safely remove the midnight cron jobs
-LOG_DIR="/var/local/cif/logs"
-echo "Removing midnight log rotation cron jobs..."
-if crontab -l 2>/dev/null | grep -Fq "$LOG_DIR"; then
-    # List current cron, filter out any lines containing our log directory path, and save back
-    crontab -l 2>/dev/null | grep -v -F "$LOG_DIR" | crontab -
-    echo "Cron jobs removed."
-else
-    echo "No matching cron jobs found."
-fi

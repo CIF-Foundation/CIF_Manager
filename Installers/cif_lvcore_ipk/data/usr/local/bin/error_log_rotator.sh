@@ -10,9 +10,9 @@ while IFS= read -r line; do
     FILE_SIZE=$(wc -c < "$LOG_FILE")
     if [ "$FILE_SIZE" -ge "$MAX_SIZE" ]; then
         # Perform clean rotation up to 3 files
-        rm -f /var/local/cif/logs/cif_error.log2
-        mv /var/local/cif/logs/cif_error.log1 /var/local/cif/logs/cif_error.log2 2>/dev/null
-        mv /var/local/cif/logs/cif_error.log /var/local/cif/logs/cif_error.log1 2>/dev/null
+        rm -f /var/local/cif/logs/cif_error.log.2
+        mv /var/local/cif/logs/cif_error.log.1 /var/local/cif/logs/cif_error.log.2 2>/dev/null
+        mv /var/local/cif/logs/cif_error.log /var/local/cif/logs/cif_error.log.1 2>/dev/null
         touch "$LOG_FILE"
     fi
 done
