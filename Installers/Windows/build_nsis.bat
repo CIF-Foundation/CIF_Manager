@@ -43,6 +43,6 @@ if errorlevel 1 (
   exit /b 1
 )
 
-echo Successfully created cif-lvcore-2.2.0.0.exe
+echo Successfully created cif-lvcore-2.2.1.0.exe
 popd
 endlocal
