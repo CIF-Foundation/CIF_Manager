@@ -1,0 +1,11 @@
+/var/local/cif/logs/cif_error.log
+/var/local/cif/logs/cif_info.log
+/var/local/cif/logs/cif_config.log 
+{
+    su root root
+    daily
+    rotate 2
+    create 0644 root root
+    missingok
+    notifempty
+}

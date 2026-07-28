@@ -16,7 +16,7 @@
 !define MUI_UNICON "cif_icon.ico"
 
 !define PRODUCT_NAME "CIF LVCore"
-!define PRODUCT_VERSION "2.2.0.0"
+!define PRODUCT_VERSION "2.2.1.0"
 !define PRODUCT_PUBLISHER "Dome Automation"
 !define PRODUCT_UNINST_KEY "Software\Microsoft\Windows\CurrentVersion\Uninstall\CIF-LVCORE"
 !define INSTALL_DIR "C:\Users\Public\Documents"

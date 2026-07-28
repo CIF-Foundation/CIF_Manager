@@ -4,6 +4,6 @@ Copy and replace the proto files
 In terminal run <wsl> to enter Windows Subsystem for Linux
 Copy the installers directory to the home directory <cp -r  /mnt/d/dev/CIF_Manager/Installers/ ~/installers>
 Run the builds <bash ~/installers/build_deb.sh>  <bash ~/installers/build_ipk.sh>
-Copy the files back to a mounted location <cp -r  ~/installers/cif-lvcore.2.2.0.0.ipk /mnt/d/dev/builds/installers/>
+Copy the files back to a mounted location <cp -r  ~/installers/cif-lvcore.2.2.1.0.ipk /mnt/d/dev/builds/installers/>
   <cp -r  ~/installers/cif-lvcore.2.0.0.0.deb /mnt/d/dev/builds/installers/>
 Delete the new directory <rm -rf ~/installers>
