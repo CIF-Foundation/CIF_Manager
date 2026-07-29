@@ -12,6 +12,10 @@
 #   LVRT_CONF   Live INI (default: /etc/natinst/share/lvrt.conf)
 #   NIRTCFG     default: /usr/local/natinst/bin/nirtcfg
 #   LVRT_DIR    LabVIEW install dir (default: /usr/local/natinst/labview)
+#   LVRT_CIF_SNAPSHOT  Canonical pre-overlay snapshot (default: /tmp/lvrt-cif-original.conf)
+#
+# When a second launch starts before the first has restored lvrt.conf, the shared snapshot
+# ensures every launcher restores from the same original instead of a CIF-mutated LIVE copy.
 #
 # Caller must be root or lvuser. The second runtime always runs as lvuser: root uses
 # runuser(1) (also checks /sbin and /usr/sbin when PATH is minimal) or, if missing,
@@ -26,25 +30,29 @@
 
 set -e
 
-NIRTCFG="${NIRTCFG:-/usr/local/natinst/bin/nirtcfg}"
-LIVE="${LVRT_CONF:-/etc/natinst/share/lvrt.conf}"
-LVRT_DIR="${LVRT_DIR:-/usr/local/natinst/labview}"
-CIF="$1"
-LVRT_EXTRA="$2"
-PIDFILE="${3:-/tmp/lvrt-cif-$$.pid}"
-LOG="/tmp/lvrt-cif-$(basename "$PIDFILE" .pid).log"
+# --- Paths and arguments ---
+NIRTCFG="${NIRTCFG:-/usr/local/natinst/bin/nirtcfg}"   # NI tool to read/write INI keys
+LIVE="${LVRT_CONF:-/etc/natinst/share/lvrt.conf}"       # Live LabVIEW RT config on disk
+LVRT_DIR="${LVRT_DIR:-/usr/local/natinst/labview}"     # Directory containing ./lvrt binary
+CIF="$1"                                                # Path to temporary CIF override INI
+LVRT_EXTRA="$2"                                         # Extra argv for ./lvrt (visible in ps)
+PIDFILE="${3:-/tmp/lvrt-cif-$$.pid}"                    # Runner writes new lvrt PID here
+LOG="/tmp/lvrt-cif-$(basename "$PIDFILE" .pid).log"     # lvrt stdout/stderr from runner
+# Shared copy of lvrt.conf before any CIF overlay; reused by overlapping launches.
+STANDARD_SNAPSHOT="${LVRT_CIF_SNAPSHOT:-/tmp/lvrt-cif-original.conf}"
 
-TAB=$(printf '\t')
-WORKDIR=""
-RESTORE_DONE=0
-MUTATED=0
+TAB=$(printf '\t')                                      # Field sep: section<TAB>token<TAB>value
+WORKDIR=""                                              # Temp dir for snapshot, CIF, runner
+RESTORE_DONE=0                                          # 1 after happy-path restore (skip in on_exit)
+MUTATED=0                                               # 1 after LIVE modified (on_exit must restore)
 
 usage() {
 	echo "Usage: $0 <path-to-lvrt_cif.conf> <lvrt_argv_marker> [pidfile]" >&2
 	exit 1
 }
 
-# First match: PATH lookup or executable absolute path (for stripped PATH / LabVIEW).
+# Find the first usable command from a list of names/paths.
+# LabVIEW RT often runs with a minimal PATH, so we also try absolute paths like /sbin/runuser.
 find_first_cmd() {
 	for _p in "$@"; do
 		if command -v "$_p" >/dev/null 2>&1; then
@@ -59,7 +67,7 @@ find_first_cmd() {
 	return 1
 }
 
-# INI → lines: section<TAB>token<TAB>value
+# Parse an INI file into normalized lines: section<TAB>token<TAB>value
 parse_ini_assignments() {
 	_file=$1
 	section=""
@@ -87,17 +95,58 @@ parse_ini_assignments() {
 	done <"$_file"
 }
 
+# Unique sorted list of section<TAB>token keys (no values); used for set-difference via comm.
 keys_only_sorted() {
 	parse_ini_assignments "$1" | cut -f1,2 | LC_ALL=C sort -u
 }
 
-restore_snapshot() {
-	if ! cp -p "$WORKDIR/snapshot.ini" "$LIVE"; then
-		echo "$0: failed to restore live config from snapshot: $LIVE"
-		return 1
+# Populate $WORKDIR/snapshot.ini with the true original config.
+# Why: a second launch (e.g. plugin loader) may start while the first is still running.
+# By then LIVE may already hold the first launcher's CIF overlay — copying LIVE would
+# save the wrong baseline. The shared file keeps the pre-overlay original for everyone.
+acquire_workdir_snapshot() {
+	if [ -f "$STANDARD_SNAPSHOT" ]; then
+		# Overlapping launch — reuse the canonical original, not current LIVE.
+		cp "$STANDARD_SNAPSHOT" "$WORKDIR/snapshot.ini"
+		return 0
+	fi
+	# First launch in this burst — snapshot LIVE before we mutate it.
+	cp "$LIVE" "$WORKDIR/snapshot.ini"
+	if cp "$WORKDIR/snapshot.ini" "$STANDARD_SNAPSHOT" 2>/dev/null; then
+		return 0
+	fi
+	# Rare race: another launcher published STANDARD_SNAPSHOT first; use theirs.
+	if [ -f "$STANDARD_SNAPSHOT" ]; then
+		cp "$STANDARD_SNAPSHOT" "$WORKDIR/snapshot.ini"
 	fi
 }
 
+# Put LIVE back to the snapshot baseline via nirtcfg (not a raw file copy).
+restore_snapshot() {
+	_snap="$WORKDIR/snapshot.ini"
+	_cifini="$WORKDIR/cif.ini"
+	_ks="$WORKDIR/keys.snap"
+	_kc="$WORKDIR/keys.cif"
+
+	keys_only_sorted "$_snap" >"$_ks"
+	keys_only_sorted "$_cifini" >"$_kc"
+
+	# Re-apply every key/value from the original snapshot into LIVE.
+	parse_ini_assignments "$_snap" | LC_ALL=C sort -t "$TAB" -k1,1 -k2,2 >"$WORKDIR/snap.rows"
+	while IFS="$TAB" read -r sec tok val || [ -n "$sec" ]; do
+		[ -z "$sec" ] && continue
+		"$NIRTCFG" --file "$LIVE" --set section="$sec",token="$tok",value="$val"
+	done <"$WORKDIR/snap.rows"
+
+	# Keys added by CIF but absent from snapshot were temporary — remove them from LIVE.
+	LC_ALL=C comm -13 "$_ks" "$_kc" >"$WORKDIR/to_clear_restore"
+	while IFS="$TAB" read -r sec tok || [ -n "$sec" ]; do
+		[ -z "$sec" ] && continue
+		"$NIRTCFG" --file "$LIVE" --clear section="$sec",token="$tok" --rm-if-empty
+	done <"$WORKDIR/to_clear_restore"
+}
+
+# If we modified LIVE but exit early, attempt restore so lvrt.conf is not left overlayed.
 on_exit() {
 	_ex=$?
 	if [ "$RESTORE_DONE" -eq 1 ]; then
@@ -105,9 +154,7 @@ on_exit() {
 		exit "$_ex"
 	fi
 	if [ "$MUTATED" -eq 1 ] && [ -n "$WORKDIR" ] && [ -f "$WORKDIR/snapshot.ini" ]; then
-		if ! restore_snapshot; then
-			_ex=1
-		fi
+		restore_snapshot || true
 	fi
 	[ -n "$WORKDIR" ] && rm -rf "$WORKDIR" 2>/dev/null || true
 	exit "$_ex"
@@ -117,6 +164,7 @@ trap 'on_exit' EXIT
 trap 'exit 130' INT
 trap 'exit 143' TERM
 
+# --- Validate arguments and required tools ---
 [ -n "$CIF" ] && [ -f "$CIF" ] || usage
 [ -n "$LVRT_EXTRA" ] || {
 	echo "$0: lvrt_argv_marker (2nd argument) is required" >&2
@@ -124,10 +172,6 @@ trap 'exit 143' TERM
 }
 [ -r "$LIVE" ] || {
 	echo "$0: cannot read live config: $LIVE" >&2
-	exit 1
-}
-[ -w "$LIVE" ] || {
-	echo "$0: cannot write live config: $LIVE" >&2
 	exit 1
 }
 [ -x "$NIRTCFG" ] || {
@@ -147,8 +191,9 @@ command -v nohup >/dev/null 2>&1 || {
 	exit 1
 }
 
+# --- Step 1: Save snapshot (shared) and CIF copy in a temp directory ---
 WORKDIR=$(mktemp -d "${TMPDIR:-/tmp}/lvrt-cif-launch.XXXXXX")
-cp "$LIVE" "$WORKDIR/snapshot.ini"
+acquire_workdir_snapshot
 cp "$CIF" "$WORKDIR/cif.ini"
 
 keys_only_sorted "$WORKDIR/snapshot.ini" >"$WORKDIR/keys.snap"
@@ -156,19 +201,25 @@ keys_only_sorted "$WORKDIR/cif.ini" >"$WORKDIR/keys.cif"
 
 MUTATED=1
 
+# --- Step 2: Apply this launcher's CIF overlay to LIVE via nirtcfg ---
+
+# Remove keys present in snapshot but omitted from CIF (intentional clears in overlay).
 LC_ALL=C comm -23 "$WORKDIR/keys.snap" "$WORKDIR/keys.cif" >"$WORKDIR/to_clear_apply"
 while IFS="$TAB" read -r sec tok || [ -n "$sec" ]; do
 	[ -z "$sec" ] && continue
 	"$NIRTCFG" --file "$LIVE" --clear section="$sec",token="$tok" --rm-if-empty
 done <"$WORKDIR/to_clear_apply"
 
+# Set every key/value from the CIF file into LIVE (temporary — only for new lvrt startup).
 parse_ini_assignments "$WORKDIR/cif.ini" >"$WORKDIR/cif.rows"
 while IFS="$TAB" read -r sec tok val || [ -n "$sec" ]; do
 	[ -z "$sec" ] && continue
 	"$NIRTCFG" --file "$LIVE" --set section="$sec",token="$tok",value="$val"
 done <"$WORKDIR/cif.rows"
 
-# Runner: login-style env for lvrt (cd, ulimit, LVRT_STATUS, LD_LIBRARY_PATH).
+# --- Step 3: Generate lvrt-run.sh for lvuser to start ./lvrt in the background ---
+# Runner sets LabVIEW RT environment, starts lvrt, writes PID, sleeps 0.2s so lvrt
+# can read LIVE before the main script restores the snapshot.
 LVRT_EXTRA_SQ=$(printf '%s' "$LVRT_EXTRA" | sed "s/'/'\\\\''/g")
 RUNNER_SH="$WORKDIR/lvrt-run.sh"
 {
@@ -184,6 +235,7 @@ RUNNER_SH="$WORKDIR/lvrt-run.sh"
 	printf '%s\n' "echo \$! >'${PIDFILE}'"
 	printf '%s\n' 'sleep 0.2'
 } >"$RUNNER_SH"
+# lvuser must traverse WORKDIR (x) and execute the runner when launched via runuser.
 chmod 701 "$WORKDIR"
 chmod 755 "$RUNNER_SH"
 
@@ -192,6 +244,7 @@ RUNUSER_BIN=$(find_first_cmd runuser /sbin/runuser /usr/sbin/runuser) || RUNUSER
 SCRIPT_BIN=$(find_first_cmd script /usr/bin/script) || SCRIPT_BIN=
 SU_BIN=$(find_first_cmd su /bin/su) || SU_BIN=
 
+# --- Step 4: Run the generated script as lvuser (lvrt must not run as root) ---
 if [ "$(id -u)" -eq 0 ]; then
 	: >"$PIDFILE"
 	chown lvuser:ni "$PIDFILE" 2>/dev/null || chown lvuser "$PIDFILE"
@@ -213,9 +266,13 @@ else
 	exit 1
 fi
 
+# --- Step 5: Restore LIVE from snapshot; CIF overlay was only needed at lvrt startup ---
 restore_snapshot
 RESTORE_DONE=1
+# Clear shared snapshot so the next unrelated launch snapshots fresh LIVE again.
+rm -f "$STANDARD_SNAPSHOT"
 
+# --- Step 6: Read PID and verify lvrt is still running ---
 PID=$(tr -d ' \r\n' <"$PIDFILE")
 [ -n "$PID" ] || {
 	echo "$0: empty pid in $PIDFILE" >&2

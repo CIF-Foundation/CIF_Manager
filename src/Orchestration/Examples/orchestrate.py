@@ -22,7 +22,7 @@ cif_manager = cif_orchestration_base.cif_manager(server_ip, manager_port)
 
 cif_manager.load(tagmon)
 
-cif_manager.load(tagrw)
+cif_manager.load(tagrw, load_timeout_ms=15000)
 cif_manager.load(tagrw2)
 tagrw.force_channel_double("tagrw.doublein1", True, 1.1)
 tagrw.force_channel_double("tagrw.doublein2", True, 2)

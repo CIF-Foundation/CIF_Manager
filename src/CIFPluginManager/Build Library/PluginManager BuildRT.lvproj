@@ -698,9 +698,9 @@ AddOutputFilter chunkFilter
 				<Property Name="Bld_version.build" Type="Int">1</Property>
 				<Property Name="Bld_version.major" Type="Int">2</Property>
 				<Property Name="Bld_version.minor" Type="Int">2</Property>
-				<Property Name="Bld_version.patch" Type="Int">1</Property>
-				<Property Name="Destination[0].destName" Type="Str">PluginManager.2.2.1.lvlibp</Property>
-				<Property Name="Destination[0].path" Type="Path">/rt/PluginManager.2.2.1.lvlibp</Property>
+				<Property Name="Bld_version.patch" Type="Int">2</Property>
+				<Property Name="Destination[0].destName" Type="Str">PluginManager.2.2.2.lvlibp</Property>
+				<Property Name="Destination[0].path" Type="Path">/rt/PluginManager.2.2.2.lvlibp</Property>
 				<Property Name="Destination[0].path.type" Type="Str">&lt;none&gt;</Property>
 				<Property Name="Destination[0].preserveHierarchy" Type="Bool">true</Property>
 				<Property Name="Destination[0].type" Type="Str">App</Property>
@@ -708,7 +708,7 @@ AddOutputFilter chunkFilter
 				<Property Name="Destination[1].path" Type="Path">/rt</Property>
 				<Property Name="Destination[1].path.type" Type="Str">&lt;none&gt;</Property>
 				<Property Name="DestinationCount" Type="Int">2</Property>
-				<Property Name="Source[0].itemID" Type="Str">{2A87C6B1-7CC7-4E19-9B3F-59F5C7CED9EF}</Property>
+				<Property Name="Source[0].itemID" Type="Str">{9575E7DF-CB0A-47A7-982B-AFD9BF4E860F}</Property>
 				<Property Name="Source[0].type" Type="Str">Container</Property>
 				<Property Name="Source[1].destinationIndex" Type="Int">0</Property>
 				<Property Name="Source[1].itemID" Type="Ref">/RT PXI Target/PluginManager.lvlib</Property>
@@ -724,7 +724,7 @@ AddOutputFilter chunkFilter
 				<Property Name="TgtF_legalCopyright" Type="Str">Copyright © 2024 </Property>
 				<Property Name="TgtF_productName" Type="Str">PluginManagerRT</Property>
 				<Property Name="TgtF_targetfileGUID" Type="Str">{6DA0406C-9AB0-4143-8ABB-FB8A9909FCC3}</Property>
-				<Property Name="TgtF_targetfileName" Type="Str">PluginManager.2.2.1.lvlibp</Property>
+				<Property Name="TgtF_targetfileName" Type="Str">PluginManager.2.2.2.lvlibp</Property>
 				<Property Name="TgtF_versionIndependent" Type="Bool">true</Property>
 			</Item>
 			<Item Name="CIF_Manager_Startup" Type="{69A947D5-514E-4E75-818E-69657C0547D8}">
