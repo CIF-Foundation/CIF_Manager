@@ -10,7 +10,7 @@ chmod 755 /usr/local/cif/manager/loaders/cif_plugin_loader_startup_25.rtexe
 chmod 755 /usr/local/cif/manager/loaders/launch_lvrt_cif.sh
 # Set permissions for all files and folders in CIF
 chmod -R 777 /usr/local/cif
-chown -R lvuser:ni /usr/local/cif/plugins
+# chown -R lvuser:ni /usr/local/cif/plugins
 
 # Set permissions for python launcher file
 chmod 755 /usr/local/bin/launch_rt.py
