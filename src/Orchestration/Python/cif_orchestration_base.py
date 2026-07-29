@@ -22,7 +22,9 @@ class cif_manager():
         self.manager_address = self.address + ":" + self.port  # host:port for gRPC channel
         self.stub = cif_manager_pb2_grpc.ManagerStub(grpc.insecure_channel(self.manager_address))  # cleartext; use TLS if exposed beyond localhost
 
-    def load(self, plugin):
+    def load(self, plugin, load_timeout_ms=None):
+        if load_timeout_ms is not None:
+            plugin.load_timeout_ms = load_timeout_ms
         # Check if plugin with this name is already loaded
         exists = self.check(plugin.name)
         if exists == False:
@@ -71,25 +73,29 @@ class plugin_state(Enum):
 class plugin():
     """One plugin instance: manager metadata plus stubs to PluginCore / ChannelCore on the plugin port."""
 
-    def __init__(self, name, type, version, loader):
+    def __init__(self, name, type, version, loader, load_timeout_ms=10000):
         self.name = name  # unique instance name on the target
         self.type = type  # plugin type / class name
         self.version = version  # semver string sent to manager for version resolution
         self.loader = loader  # loader_process string (e.g. Default_LabVIEW)
+        self.load_timeout_ms = load_timeout_ms  # poll duration while plugin registers gRPC port
         self.port = "unset"
         self.address = "unset"  # manager host; set when added via cif_manager.load
         self.plugin_address = "unset"  # manager_host:plugin_grpc_port when connected
         self.connection = plugin_connection.UNLOADED
         self.state = plugin_state.NULL  # last known lifecycle state from GetStatusData
 
-    def check_loaded(self):
+    def check_loaded(self, timeout_ms=None):
         """Ensure plugin gRPC stubs exist; poll manager while status.code == -9014 (still registering)."""
+        if timeout_ms is None:
+            timeout_ms = self.load_timeout_ms
         if self.connection == plugin_connection.UNLOADED:
             print(f"{bcolors.WARNING}Plugin {self.name} has not been loaded. {bcolors.ENDC}")
             return self
         if self.connection == plugin_connection.NOT_CONNECTED:
+            max_iteration = timeout_ms / 250
             i = 0
-            while i < 20:
+            while i < max_iteration:
               result_info = self.cif_manager.stub.QueryPlugin(cif_manager_pb2.QueryPluginRequest(plugin_name=self.name))
               if result_info.status.code != -9014:
                 # Any code other than -9014: registration finished (success or error path)
@@ -102,10 +108,10 @@ class plugin():
                     return self
               time.sleep (0.25)  # still at -9014: keep waiting for plugin to bind its gRPC port
               i += 1
-              if i == 20:
-                print(f"{bcolors.WARNING}Plugin {plugin.name} did not load before timeout. {bcolors.ENDC}")
+              if i == max_iteration:
+                print(f"{bcolors.WARNING}Plugin {self.name} did not load before timeout. {bcolors.ENDC}")
                 return self
-        return self  
+        return self
 
     def run(self, wait_running=False):
         self = self.check_loaded()
@@ -160,7 +166,7 @@ class plugin():
               time.sleep (0.25)
               i += 1
               if i == max_iteration:
-                print(f"{bcolors.WARNING}Plugin {plugin.name} did not change to running state before timeout. {bcolors.ENDC}")
+                print(f"{bcolors.WARNING}Plugin {self.name} did not change to running state before timeout. {bcolors.ENDC}")
                 return self
 
     def force_channel_double(self, channel_name, force, force_data):
