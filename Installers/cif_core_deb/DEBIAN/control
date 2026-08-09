@@ -1,0 +1,6 @@
+Package: cif-core
+Version: 2.1.1.0
+Architecture: amd64
+Maintainer: todd.walter@domeautomation.com
+Description: Provides the required libraries and services for CIF support.
+Priority: optional

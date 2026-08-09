@@ -86,7 +86,7 @@ def should_normalize(path: Path) -> bool:
         return True
     if suffix in TEXT_SUFFIXES:
         return True
-    if path.parent.name == "control":
+    if path.parent.name in {"control", "CONTROL"}:
         return True
     return False
 

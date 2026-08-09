@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Apply cif_lvcore_ipk.build.json copy mappings into a staged IPK tree.
+"""Apply cif_core_ipk.build.json copy mappings into a staged IPK tree.
 
 Each copy entry maps one source file or directory from the repository into
 the staged IPK package layout. Entries that contain only "_comment" are ignored.

@@ -12,8 +12,9 @@
 *.json text eol=lf
 
 # IPK package text files
-Installers/cif_lvcore_ipk/control/** text eol=lf
-Installers/cif_lvcore_ipk/data/** text eol=lf
+Installers/cif_core_ipk/CONTROL/** text eol=lf
+Installers/cif_core_ipk/usr/** text eol=lf
+Installers/cif_core_ipk/etc/** text eol=lf
 
 # Source trees copied into installers at build time
 src/Orchestration/** text eol=lf

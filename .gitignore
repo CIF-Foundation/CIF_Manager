@@ -19,6 +19,6 @@
 # Windows installer build staging (assembled by build_nsis.bat)
 Installers/Windows/staging/
 
-# IPK build staging and output (assembled by build_cif_lvcore_ipk.sh)
+# IPK build staging and output (assembled by build_cif_core_ipk.sh)
 Installers/staging/
 Installers/output/
