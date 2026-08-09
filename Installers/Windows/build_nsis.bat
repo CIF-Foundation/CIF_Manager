@@ -9,7 +9,7 @@ if not exist "%NSIS%" (
 
 pushd "%~dp0"
 
-set "NSI_FILE=cif-lvcore.nsi"
+set "NSI_FILE=cif-core.nsi"
 set "PRODUCT_VERSION="
 for /f "tokens=3 delims= " %%V in ('findstr /C:"define PRODUCT_VERSION" "%NSI_FILE%"') do set "PRODUCT_VERSION=%%~V"
 if not defined PRODUCT_VERSION (
@@ -17,13 +17,13 @@ if not defined PRODUCT_VERSION (
   popd
   exit /b 1
 )
-set "OUT_FILE=cif-lvcore-%PRODUCT_VERSION%.exe"
+set "OUT_FILE=cif-core-%PRODUCT_VERSION%.exe"
 
 set "STAGING=%~dp0staging"
 set "STAGING_RESOURCE=%STAGING%\resource"
 set "RESOURCE=%~dp0resource"
 set "REPO_ROOT=%~dp0..\.."
-set "BUILD_CONFIG=%~dp0..\cif_lvcore_windows.build.json"
+set "BUILD_CONFIG=%~dp0..\cif_core_windows.build.json"
 set "APPLY_CONFIG=%~dp0..\apply_ipk_build_config.py"
 
 if not exist "%BUILD_CONFIG%" (
@@ -48,7 +48,7 @@ if errorlevel 1 (
   exit /b 1
 )
 
-echo Applying source file copies from cif_lvcore_windows.build.json...
+echo Applying source file copies from cif_core_windows.build.json...
 python "%APPLY_CONFIG%" "%BUILD_CONFIG%" "%REPO_ROOT%" "%STAGING_RESOURCE%"
 if errorlevel 1 (
   echo Error: Failed to apply Windows build config.

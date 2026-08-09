@@ -1,22 +1,25 @@
 #!/usr/bin/env bash
-# End-to-end build for the cif_lvcore_ipk LabVIEW RT package.
+# End-to-end build for the cif_core_ipk Linux RT package.
 #
 # Workflow:
 #   1. Copy the checked-in IPK template into a staging directory
-#   2. Overlay source files listed in cif_lvcore_ipk.build.json
+#   2. Overlay source files listed in cif_core_ipk.build.json
 #   3. Normalize text files to LF line endings for Linux/RT
-#   4. Create the .ipk archive and move it to Installers/output/
+#   4. Create the .ipk archive with opkg-build and move it to Installers/output/
+#
+# Uses Installers/opkg-utils/opkg-build when opkg-build is not installed system-wide.
+# Requires binutils (ar), tar, gzip, and python3.
 #
 # Usage:
-#   bash Installers/build_cif_lvcore_ipk.sh
+#   bash Installers/build_cif_core_ipk.sh
 #
-# On Windows, prefer Installers/build_cif_lvcore_ipk.bat which invokes this
+# On Windows, prefer Installers/build_cif_core_ipk.bat which invokes this
 # script through WSL.
 set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 REPO_ROOT="$(cd "${SCRIPT_DIR}/.." && pwd)"
-CONFIG_FILE="${SCRIPT_DIR}/cif_lvcore_ipk.build.json"
+CONFIG_FILE="${SCRIPT_DIR}/cif_core_ipk.build.json"
 APPLY_CONFIG="${SCRIPT_DIR}/apply_ipk_build_config.py"
 BUILD_IPK="${SCRIPT_DIR}/build_ipk.sh"
 
@@ -27,6 +30,17 @@ fi
 
 if ! command -v python3 >/dev/null 2>&1; then
   echo "Error: python3 is required to apply ${CONFIG_FILE}" >&2
+  exit 1
+fi
+
+if ! command -v ar >/dev/null 2>&1; then
+  echo "Error: ar not found. Install binutils (e.g. apt install binutils)." >&2
+  exit 1
+fi
+
+BUNDLED_OPKG_BUILD="${SCRIPT_DIR}/opkg-utils/opkg-build"
+if ! command -v opkg-build >/dev/null 2>&1 && [[ ! -f "${BUNDLED_OPKG_BUILD}" ]]; then
+  echo "Error: opkg-build not found and bundled script missing at ${BUNDLED_OPKG_BUILD}" >&2
   exit 1
 fi
 

@@ -1,7 +1,7 @@
 # LabVIEW RT CIF launcher
 
 Canonical sources for the IPK install live in this directory and are copied into
-the package at build time via `Installers/cif_lvcore_ipk.build.json`.
+the package at build time via `Installers/cif_core_ipk.build.json`.
 
 `launch_lvrt_cif.sh` merges a temporary CIF-style INI into the live LabVIEW RT config (`lvrt.conf`), starts a second `./lvrt` process as `lvuser`, waits briefly for that process to read the config, then restores `lvrt.conf` from a snapshot. The new lvrt PID is printed on stdout.
 

@@ -1,10 +1,10 @@
-; CIF LVCore Windows installer
+; CIF Core Windows installer
 ;
 ; Installs files from resource\ to C:\Users\Public\Documents\,
 ; preserving the directory structure under resource\.
 ;
 ; build_nsis.bat stages resource\ and overlays files listed in
-; Installers/cif_lvcore_windows.build.json (protos and Python orchestration
+; Installers/cif_core_windows.build.json (protos and Python orchestration
 ; from src/) before invoking makensis with /DRESOURCE_DIR=...
 
 !ifndef RESOURCE_DIR
@@ -16,18 +16,18 @@
 !define MUI_ICON "cif_icon.ico"
 !define MUI_UNICON "cif_icon.ico"
 
-!define PRODUCT_NAME "CIF LVCore"
+!define PRODUCT_NAME "CIF Core"
 !define PRODUCT_VERSION "2.2.3.0"
 !define PRODUCT_PUBLISHER "Dome Automation"
-!define PRODUCT_UNINST_KEY "Software\Microsoft\Windows\CurrentVersion\Uninstall\CIF-LVCORE"
+!define PRODUCT_UNINST_KEY "Software\Microsoft\Windows\CurrentVersion\Uninstall\CIF-CORE"
 !define INSTALL_DIR "C:\Users\Public\Documents"
-!define UNINSTALL_DIR "$PROGRAMFILES64\CIF-LVCore"
-!define UNINSTALLER_NAME "cif-lvcore-Uninstall.exe"
+!define UNINSTALL_DIR "$PROGRAMFILES64\CIF-Core"
+!define UNINSTALLER_NAME "cif-core-Uninstall.exe"
 !define MANAGER_UI_EXE "$INSTDIR\CIF\manager\CIF Manager UI.exe"
 !define STARTMENU_DIR "$SMPROGRAMS\${PRODUCT_NAME}"
 
 Name "${PRODUCT_NAME} ${PRODUCT_VERSION}"
-OutFile "cif-lvcore-${PRODUCT_VERSION}.exe"
+OutFile "cif-core-${PRODUCT_VERSION}.exe"
 InstallDir "${INSTALL_DIR}"
 RequestExecutionLevel admin
 ShowInstDetails show

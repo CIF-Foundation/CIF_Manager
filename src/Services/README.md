@@ -65,7 +65,7 @@ sed -i 's/\r$//' /usr/local/bin/cif_manager_destroy
 # or: dos2unix /usr/local/bin/cif_manager_destroy
 ```
 
-Or include it in your CIF ipk under `usr/local/bin/` (see `Installers/cif_lvcore_ipk`).
+Or include it in your CIF ipk under `usr/local/bin/` (see `Installers/cif_core_ipk`).
 
 The full CIF ipk also installs `src/Services/init.d/cifmanager` to `/etc/init.d/cifmanager`,
 runs `update-rc.d cifmanager defaults 99 20` during `postinst`, and starts the service with
