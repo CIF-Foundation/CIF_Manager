@@ -8,10 +8,22 @@ from typing import ClassVar as _ClassVar, Optional as _Optional, Union as _Union
 DESCRIPTOR: _descriptor.FileDescriptor
 
 class StartRequest(_message.Message):
+    __slots__ = ("start_fte",)
+    START_FTE_FIELD_NUMBER: _ClassVar[int]
+    start_fte: int
+    def __init__(self, start_fte: _Optional[int] = ...) -> None: ...
+
+class StartResponse(_message.Message):
+    __slots__ = ("status",)
+    STATUS_FIELD_NUMBER: _ClassVar[int]
+    status: _cif_common_pb2.Status
+    def __init__(self, status: _Optional[_Union[_cif_common_pb2.Status, _Mapping]] = ...) -> None: ...
+
+class PrepareRequest(_message.Message):
     __slots__ = ()
     def __init__(self) -> None: ...
 
-class StartResponse(_message.Message):
+class PrepareResponse(_message.Message):
     __slots__ = ("status",)
     STATUS_FIELD_NUMBER: _ClassVar[int]
     status: _cif_common_pb2.Status

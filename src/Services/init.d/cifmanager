@@ -1,0 +1,181 @@
+#!/bin/sh
+# cifmanager — System V init script for the CIF Manager on NI Linux RT.
+#
+# Start: runs launch_lvrt_cif.sh, which briefly overlays lvrt.conf, starts a second
+#        ./lvrt as lvuser for the manager RTEXE, then restores lvrt.conf.
+# Stop:  calls cif_manager_destroy (gRPC Destroy RPC), waits for lvrt to exit, then
+#        sends SIGTERM if needed.
+#
+# Install: /etc/init.d/cifmanager
+# Enable:  update-rc.d cifmanager defaults 99 20
+#
+# Boot order (NI Linux RT System V init):
+#   - Required-Start: nilvrt  -> insserv/update-rc.d start cifmanager AFTER nilvrt
+#   - update-rc.d ... 99 20   -> start sequence 99 (late boot), stop sequence 20
+
+### BEGIN INIT INFO
+# Provides:          cifmanager
+# Required-Start:    $local_fs $remote_fs $network nilvrt
+# Required-Stop:     $local_fs $remote_fs $network
+# Default-Start:     2 3 4 5
+# Default-Stop:      0 1 6
+# Short-Description: CIF Manager (LabVIEW RT)
+# Description:       Starts the CIF Manager via launch_lvrt_cif.sh after the
+#                    primary LabVIEW RT engine (nilvrt) is up. Stops gracefully
+#                    through the Manager gRPC Destroy RPC.
+### END INIT INFO
+
+NAME="CIF Manager"
+
+# launch_lvrt_cif.sh merges LVRT_CIF_CONF into live lvrt.conf, starts ./lvrt, restores config.
+LAUNCH_SCRIPT="/usr/local/cif/manager/loaders/launch_lvrt_cif.sh"
+# CIF overlay INI: sets RTTarget.ApplicationPath to cif_manager_startup.rtexe, etc.
+LVRT_CIF_CONF="/usr/local/cif/manager/loaders/lvrt_cif_manager.conf"
+# Extra argv for ./lvrt (visible in ps); must match manager loader identity.
+LVRT_MARKER="Default_LabVIEW_Manager"
+# Built from Services/DestroyCli; reads /usr/local/cif/etc/cif.conf for port/TLS.
+# Python stop client — no libgrpc++.so install required (uses grpcio + CIF orchestration stubs).
+DESTROY="/usr/local/bin/cif_manager_destroy"
+# Written by launch_lvrt_cif.sh (3rd arg) and by do_start; holds the lvrt PID.
+PIDFILE="/var/run/cifmanager.pid"
+# Seconds to wait after Destroy before sending SIGTERM to lvrt.
+STOP_TIMEOUT=30
+
+log() {
+	printf '%s\n' "$NAME: $*" >&2
+}
+
+# Return the numeric PID from PIDFILE, or exit 1 if the file is missing/empty.
+read_pid() {
+	if [ ! -f "$PIDFILE" ]; then
+		return 1
+	fi
+	tr -d ' \r\n' <"$PIDFILE"
+}
+
+# True when PIDFILE exists and that process is still alive (kill -0 does not send a signal).
+is_running() {
+	_pid=$(read_pid) || return 1
+	[ -n "$_pid" ] && kill -0 "$_pid" 2>/dev/null
+}
+
+do_start() {
+	if is_running; then
+		log "already running (pid $(read_pid))"
+		return 0
+	fi
+
+	if [ ! -x "$LAUNCH_SCRIPT" ]; then
+		log "launch script not found or not executable: $LAUNCH_SCRIPT"
+		return 1
+	fi
+	if [ ! -f "$LVRT_CIF_CONF" ]; then
+		log "lvrt overlay config not found: $LVRT_CIF_CONF"
+		return 1
+	fi
+
+	log "starting"
+	# Launch script prints the new lvrt PID on stdout; it also writes PIDFILE during startup.
+	_pid=$("$LAUNCH_SCRIPT" "$LVRT_CIF_CONF" "$LVRT_MARKER" "$PIDFILE") || {
+		log "launch failed"
+		return 1
+	}
+
+	if [ -z "$_pid" ]; then
+		log "launch script returned empty pid"
+		return 1
+	fi
+
+	# Keep pidfile in sync with stdout (launch script may have written it already).
+	printf '%s\n' "$_pid" >"$PIDFILE"
+
+	if ! kill -0 "$_pid" 2>/dev/null; then
+		log "lvrt pid $_pid is not running after launch"
+		rm -f "$PIDFILE"
+		return 1
+	fi
+
+	log "started (pid $_pid)"
+	return 0
+}
+
+# Poll until _pid is gone or _timeout seconds elapse. Returns 0 if process exited.
+wait_for_exit() {
+	_pid=$1
+	_timeout=$2
+	_i=0
+	while [ "$_i" -lt "$_timeout" ]; do
+		if ! kill -0 "$_pid" 2>/dev/null; then
+			return 0
+		fi
+		sleep 1
+		_i=$((_i + 1))
+	done
+	return 1
+}
+
+do_stop() {
+	if ! is_running; then
+		log "not running"
+		rm -f "$PIDFILE"
+		return 0
+	fi
+
+	_pid=$(read_pid)
+
+	# Graceful path: Destroy tells the manager to unload plugins and shut down.
+	if [ -x "$DESTROY" ]; then
+		log "requesting graceful shutdown via gRPC Destroy"
+		if ! "$DESTROY"; then
+			log "Destroy RPC failed; lvrt may still be running (pid $_pid)"
+		fi
+	else
+		log "destroy client not found: $DESTROY"
+	fi
+
+	# After Destroy, give lvrt time to exit on its own before forcing SIGTERM.
+	if kill -0 "$_pid" 2>/dev/null; then
+		log "waiting up to ${STOP_TIMEOUT}s for lvrt (pid $_pid) to exit"
+		if ! wait_for_exit "$_pid" "$STOP_TIMEOUT"; then
+			log "lvrt still running after timeout; sending SIGTERM to pid $_pid"
+			kill "$_pid" 2>/dev/null || true
+			wait_for_exit "$_pid" 5 || true
+		fi
+	fi
+
+	rm -f "$PIDFILE"
+	log "stopped"
+	return 0
+}
+
+# Exit 0 if running, 3 if stopped (conventional for init scripts).
+do_status() {
+	if is_running; then
+		log "running (pid $(read_pid))"
+		return 0
+	fi
+	log "stopped"
+	return 3
+}
+
+case "$1" in
+start)
+	do_start
+	;;
+stop)
+	do_stop
+	;;
+restart)
+	do_stop
+	do_start
+	;;
+status)
+	do_status
+	;;
+*)
+	echo "Usage: $0 {start|stop|restart|status}" >&2
+	exit 1
+	;;
+esac
+
+exit $?

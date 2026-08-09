@@ -39,6 +39,11 @@ class PluginCoreStub(object):
                 request_serializer=cif__plugin__core__pb2.StartRequest.SerializeToString,
                 response_deserializer=cif__plugin__core__pb2.StartResponse.FromString,
                 _registered_method=True)
+        self.Prepare = channel.unary_unary(
+                '/cif.plugincore.PluginCore/Prepare',
+                request_serializer=cif__plugin__core__pb2.PrepareRequest.SerializeToString,
+                response_deserializer=cif__plugin__core__pb2.PrepareResponse.FromString,
+                _registered_method=True)
         self.Pause = channel.unary_unary(
                 '/cif.plugincore.PluginCore/Pause',
                 request_serializer=cif__plugin__core__pb2.PauseRequest.SerializeToString,
@@ -90,31 +95,43 @@ class PluginCoreServicer(object):
     """Missing associated documentation comment in .proto file."""
 
     def Start(self, request, context):
-        """Missing associated documentation comment in .proto file."""
+        """Start by transitioning the plugin into the running state passing through the prepare state if needed.  Optionally start at a future time.
+        """
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def Prepare(self, request, context):
+        """Execute the prepare logic but do not transition into running.  
+        """
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
     def Pause(self, request, context):
-        """Missing associated documentation comment in .proto file."""
+        """Pause by if running cleanup and transition to listening state.  If prepared but not running, cleanup and remain in listening state.
+        """
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
     def Stop(self, request, context):
-        """Missing associated documentation comment in .proto file."""
+        """Stop with cleanup and teardown of the plugin, removing it from the system
+        """
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
     def RefreshStatistics(self, request, context):
-        """Missing associated documentation comment in .proto file."""
+        """Reset plugin statistics
+        """
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
     def UpdateConfig(self, request, context):
-        """Missing associated documentation comment in .proto file."""
+        """Update the plugin configuration.  Accepts a full or partial JSON
+        """
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
@@ -156,6 +173,11 @@ def add_PluginCoreServicer_to_server(servicer, server):
                     servicer.Start,
                     request_deserializer=cif__plugin__core__pb2.StartRequest.FromString,
                     response_serializer=cif__plugin__core__pb2.StartResponse.SerializeToString,
+            ),
+            'Prepare': grpc.unary_unary_rpc_method_handler(
+                    servicer.Prepare,
+                    request_deserializer=cif__plugin__core__pb2.PrepareRequest.FromString,
+                    response_serializer=cif__plugin__core__pb2.PrepareResponse.SerializeToString,
             ),
             'Pause': grpc.unary_unary_rpc_method_handler(
                     servicer.Pause,
@@ -230,6 +252,33 @@ class PluginCore(object):
             '/cif.plugincore.PluginCore/Start',
             cif__plugin__core__pb2.StartRequest.SerializeToString,
             cif__plugin__core__pb2.StartResponse.FromString,
+            options,
+            channel_credentials,
+            insecure,
+            call_credentials,
+            compression,
+            wait_for_ready,
+            timeout,
+            metadata,
+            _registered_method=True)
+
+    @staticmethod
+    def Prepare(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(
+            request,
+            target,
+            '/cif.plugincore.PluginCore/Prepare',
+            cif__plugin__core__pb2.PrepareRequest.SerializeToString,
+            cif__plugin__core__pb2.PrepareResponse.FromString,
             options,
             channel_credentials,
             insecure,

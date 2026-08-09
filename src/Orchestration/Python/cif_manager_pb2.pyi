@@ -101,8 +101,10 @@ class DestroyRequest(_message.Message):
     def __init__(self) -> None: ...
 
 class DestroyResponse(_message.Message):
-    __slots__ = ()
-    def __init__(self) -> None: ...
+    __slots__ = ("manager_pid",)
+    MANAGER_PID_FIELD_NUMBER: _ClassVar[int]
+    manager_pid: int
+    def __init__(self, manager_pid: _Optional[int] = ...) -> None: ...
 
 class PingRequest(_message.Message):
     __slots__ = ()
