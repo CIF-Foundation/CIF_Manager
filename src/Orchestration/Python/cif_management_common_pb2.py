@@ -25,19 +25,19 @@ _sym_db = _symbol_database.Default()
 import cif_common_pb2 as cif__common__pb2
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x1b\x63if_management_common.proto\x12\x15\x63if.management_common\x1a\x10\x63if_common.proto\"F\n\x0ePluginMetadata\x12\x13\n\x0b\x64\x65scription\x18\x01 \x01(\t\x12\x0f\n\x07history\x18\x02 \x01(\t\x12\x0e\n\x06\x61uthor\x18\x03 \x01(\t\"<\n\x08\x43hannels\x12\x30\n\x08\x63hannels\x18\x01 \x03(\x0b\x32\x1e.cif.management_common.Channel\"\xf3\x01\n\x07\x43hannel\x12\x0c\n\x04name\x18\x01 \x01(\t\x12:\n\tdirection\x18\x02 \x01(\x0e\x32\'.cif.management_common.ChannelDirection\x12\x0c\n\x04type\x18\x03 \x01(\t\x12\x15\n\rcustom_config\x18\x04 \x01(\x0c\x12\x11\n\tconnected\x18\x05 \x01(\x08\x12\x16\n\x0e\x63onnected_name\x18\x06 \x01(\t\x12\x0e\n\x06\x66orced\x18\x07 \x01(\x08\x12>\n\x0f\x63hannel_pattern\x18\x08 \x01(\x0e\x32%.cif.management_common.ChannelPattern\"\xb4\x01\n\rChannelFilter\x12\x12\n\nname_regex\x18\x01 \x01(\t\x12:\n\tdirection\x18\x02 \x01(\x0e\x32\'.cif.management_common.ChannelDirection\x12\x18\n\x10\x64irection_filter\x18\x03 \x01(\x08\x12\x12\n\ntype_regex\x18\x04 \x01(\t\x12\x0e\n\x06\x66orced\x18\x05 \x01(\x08\x12\x15\n\rforced_filter\x18\x06 \x01(\x08\"\xe8\x04\n\x10PluginStatusData\x12\x42\n\x05state\x18\x01 \x01(\x0e\x32\x33.cif.management_common.PluginStatusData.PluginState\x12\x42\n\x11timing_statistics\x18\x02 \x01(\x0b\x32\'.cif.management_common.TimingStatistics\x12>\n\x0f\x66ifo_statistics\x18\x03 \x01(\x0b\x32%.cif.management_common.FifoStatistics\x12+\n\x05\x65rror\x18\x04 \x01(\x0b\x32\x1c.cif.management_common.Error\x12>\n\x0fmonitor_doubles\x18\x05 \x01(\x0b\x32%.cif.management_common.MonitorDoubles\x12\x37\n\x0cmonitor_u64s\x18\x06 \x01(\x0b\x32!.cif.management_common.MonitorU64\x12\x37\n\x0cmonitor_i64s\x18\x07 \x01(\x0b\x32!.cif.management_common.MonitorI64\"\xac\x01\n\x0bPluginState\x12\x17\n\x13PLUGINSTATE_UNKNOWN\x10\x00\x12\x18\n\x14PLUGINSTATE_CREATING\x10\x01\x12\x19\n\x15PLUGINSTATE_LISTENING\x10\x02\x12\x17\n\x13PLUGINSTATE_RUNNING\x10\x03\x12\x1a\n\x16PLUGINSTATE_CLEANINGUP\x10\x04\x12\x1a\n\x16PLUGINSTATE_DESTROYING\x10\x05\"\xe5\x02\n\x10TimingStatistics\x12\'\n\x06period\x18\x01 \x01(\x0b\x32\x17.cif.common.TimingStats\x12+\n\nwake_error\x18\x02 \x01(\x0b\x32\x17.cif.common.TimingStats\x12(\n\x07\x65xecute\x18\x03 \x01(\x0b\x32\x17.cif.common.TimingStats\x12*\n\thousekeep\x18\x04 \x01(\x0b\x32\x17.cif.common.TimingStats\x12%\n\x04idle\x18\x05 \x01(\x0b\x32\x17.cif.common.TimingStats\x12(\n\x07\x63leanup\x18\x06 \x01(\x0b\x32\x17.cif.common.TimingStats\x12)\n\x08\x63ustom_1\x18\x07 \x01(\x0b\x32\x17.cif.common.TimingStats\x12)\n\x08\x63ustom_2\x18\x08 \x01(\x0b\x32\x17.cif.common.TimingStats\"\xa0\x01\n\x0e\x46ifoStatistics\x12(\n\x07\x66rom_t0\x18\x01 \x01(\x0b\x32\x17.cif.common.TimingStats\x12\x35\n\x14\x66rom_previous_plugin\x18\x02 \x01(\x0b\x32\x17.cif.common.TimingStats\x12-\n\x0coutput_error\x18\x03 \x01(\x0b\x32\x17.cif.common.TimingStats\"X\n\x0eMonitorDoubles\x12\x10\n\x08\x64ouble_1\x18\x01 \x01(\x01\x12\x10\n\x08\x64ouble_2\x18\x02 \x01(\x01\x12\x10\n\x08\x64ouble_3\x18\x03 \x01(\x01\x12\x10\n\x08\x64ouble_4\x18\x04 \x01(\x01\"H\n\nMonitorU64\x12\r\n\x05u64_1\x18\x01 \x01(\x04\x12\r\n\x05u64_2\x18\x02 \x01(\x04\x12\r\n\x05u64_3\x18\x03 \x01(\x04\x12\r\n\x05u64_4\x18\x04 \x01(\x04\"H\n\nMonitorI64\x12\r\n\x05i64_1\x18\x01 \x01(\x03\x12\r\n\x05i64_2\x18\x02 \x01(\x03\x12\r\n\x05i64_3\x18\x03 \x01(\x03\x12\r\n\x05i64_4\x18\x04 \x01(\x03\"%\n\x05\x45rror\x12\x0e\n\x06status\x18\x01 \x01(\x08\x12\x0c\n\x04\x63ode\x18\x02 \x01(\x05\"Y\n\nLoaderInfo\x12\x36\n\x0bloader_type\x18\x01 \x01(\x0e\x32!.cif.management_common.LoaderType\x12\x13\n\x0bloader_name\x18\x02 \x01(\t\"}\n\x0eLoaderInfoFull\x12\x36\n\x0bloader_type\x18\x01 \x01(\x0e\x32!.cif.management_common.LoaderType\x12\x13\n\x0bloader_name\x18\x02 \x01(\t\x12\x11\n\tgrpc_port\x18\x03 \x01(\x05\x12\x0b\n\x03pid\x18\x04 \x01(\r*q\n\x10\x43hannelDirection\x12\x1c\n\x18\x43HANNELDIRECTION_UNKNOWN\x10\x00\x12\x1e\n\x1a\x43HANNELDIRECTION_PUBLISHER\x10\x01\x12\x1f\n\x1b\x43HANNELDIRECTION_SUBSCRIBER\x10\x02*\xa0\x01\n\x0e\x43hannelPattern\x12\x1a\n\x16\x43HANNELPATTERN_UNKNOWN\x10\x00\x12\x16\n\x12\x43HANNELPATTERN_TAG\x10\x01\x12\x17\n\x13\x43HANNELPATTERN_FIFO\x10\x02\x12\x1c\n\x18\x43HANNELPATTERN_MULTIFIFO\x10\x03\x12#\n\x1f\x43HANNELPATTERN_BACKPRESSUREFIFO\x10\x04*<\n\nLoaderType\x12\x16\n\x12LOADERTYPE_UNKNOWN\x10\x00\x12\x16\n\x12LOADERTYPE_LABVIEW\x10\x01\x62\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x1b\x63if_management_common.proto\x12\x15\x63if.management_common\x1a\x10\x63if_common.proto\"F\n\x0ePluginMetadata\x12\x13\n\x0b\x64\x65scription\x18\x01 \x01(\t\x12\x0f\n\x07history\x18\x02 \x01(\t\x12\x0e\n\x06\x61uthor\x18\x03 \x01(\t\"<\n\x08\x43hannels\x12\x30\n\x08\x63hannels\x18\x01 \x03(\x0b\x32\x1e.cif.management_common.Channel\"\xf3\x01\n\x07\x43hannel\x12\x0c\n\x04name\x18\x01 \x01(\t\x12:\n\tdirection\x18\x02 \x01(\x0e\x32\'.cif.management_common.ChannelDirection\x12\x0c\n\x04type\x18\x03 \x01(\t\x12\x15\n\rcustom_config\x18\x04 \x01(\x0c\x12\x11\n\tconnected\x18\x05 \x01(\x08\x12\x16\n\x0e\x63onnected_name\x18\x06 \x01(\t\x12\x0e\n\x06\x66orced\x18\x07 \x01(\x08\x12>\n\x0f\x63hannel_pattern\x18\x08 \x01(\x0e\x32%.cif.management_common.ChannelPattern\"\xb4\x01\n\rChannelFilter\x12\x12\n\nname_regex\x18\x01 \x01(\t\x12:\n\tdirection\x18\x02 \x01(\x0e\x32\'.cif.management_common.ChannelDirection\x12\x18\n\x10\x64irection_filter\x18\x03 \x01(\x08\x12\x12\n\ntype_regex\x18\x04 \x01(\t\x12\x0e\n\x06\x66orced\x18\x05 \x01(\x08\x12\x15\n\rforced_filter\x18\x06 \x01(\x08\"\x9b\x05\n\x10PluginStatusData\x12\x42\n\x05state\x18\x01 \x01(\x0e\x32\x33.cif.management_common.PluginStatusData.PluginState\x12\x42\n\x11timing_statistics\x18\x02 \x01(\x0b\x32\'.cif.management_common.TimingStatistics\x12>\n\x0f\x66ifo_statistics\x18\x03 \x01(\x0b\x32%.cif.management_common.FifoStatistics\x12+\n\x05\x65rror\x18\x04 \x01(\x0b\x32\x1c.cif.management_common.Error\x12>\n\x0fmonitor_doubles\x18\x05 \x01(\x0b\x32%.cif.management_common.MonitorDoubles\x12\x37\n\x0cmonitor_u64s\x18\x06 \x01(\x0b\x32!.cif.management_common.MonitorU64\x12\x37\n\x0cmonitor_i64s\x18\x07 \x01(\x0b\x32!.cif.management_common.MonitorI64\"\xdf\x01\n\x0bPluginState\x12\x17\n\x13PLUGINSTATE_UNKNOWN\x10\x00\x12\x18\n\x14PLUGINSTATE_CREATING\x10\x01\x12\x19\n\x15PLUGINSTATE_LISTENING\x10\x02\x12\x17\n\x13PLUGINSTATE_RUNNING\x10\x03\x12\x1a\n\x16PLUGINSTATE_CLEANINGUP\x10\x04\x12\x1a\n\x16PLUGINSTATE_DESTROYING\x10\x05\x12\x18\n\x14PLUGINSTATE_PREPARED\x10\x06\x12\x17\n\x13PLUGINSTATE_FTE_RUN\x10\x07\"\xe5\x02\n\x10TimingStatistics\x12\'\n\x06period\x18\x01 \x01(\x0b\x32\x17.cif.common.TimingStats\x12+\n\nwake_error\x18\x02 \x01(\x0b\x32\x17.cif.common.TimingStats\x12(\n\x07\x65xecute\x18\x03 \x01(\x0b\x32\x17.cif.common.TimingStats\x12*\n\thousekeep\x18\x04 \x01(\x0b\x32\x17.cif.common.TimingStats\x12%\n\x04idle\x18\x05 \x01(\x0b\x32\x17.cif.common.TimingStats\x12(\n\x07\x63leanup\x18\x06 \x01(\x0b\x32\x17.cif.common.TimingStats\x12)\n\x08\x63ustom_1\x18\x07 \x01(\x0b\x32\x17.cif.common.TimingStats\x12)\n\x08\x63ustom_2\x18\x08 \x01(\x0b\x32\x17.cif.common.TimingStats\"\xa0\x01\n\x0e\x46ifoStatistics\x12(\n\x07\x66rom_t0\x18\x01 \x01(\x0b\x32\x17.cif.common.TimingStats\x12\x35\n\x14\x66rom_previous_plugin\x18\x02 \x01(\x0b\x32\x17.cif.common.TimingStats\x12-\n\x0coutput_error\x18\x03 \x01(\x0b\x32\x17.cif.common.TimingStats\"X\n\x0eMonitorDoubles\x12\x10\n\x08\x64ouble_1\x18\x01 \x01(\x01\x12\x10\n\x08\x64ouble_2\x18\x02 \x01(\x01\x12\x10\n\x08\x64ouble_3\x18\x03 \x01(\x01\x12\x10\n\x08\x64ouble_4\x18\x04 \x01(\x01\"H\n\nMonitorU64\x12\r\n\x05u64_1\x18\x01 \x01(\x04\x12\r\n\x05u64_2\x18\x02 \x01(\x04\x12\r\n\x05u64_3\x18\x03 \x01(\x04\x12\r\n\x05u64_4\x18\x04 \x01(\x04\"H\n\nMonitorI64\x12\r\n\x05i64_1\x18\x01 \x01(\x03\x12\r\n\x05i64_2\x18\x02 \x01(\x03\x12\r\n\x05i64_3\x18\x03 \x01(\x03\x12\r\n\x05i64_4\x18\x04 \x01(\x03\"%\n\x05\x45rror\x12\x0e\n\x06status\x18\x01 \x01(\x08\x12\x0c\n\x04\x63ode\x18\x02 \x01(\x05\"Y\n\nLoaderInfo\x12\x36\n\x0bloader_type\x18\x01 \x01(\x0e\x32!.cif.management_common.LoaderType\x12\x13\n\x0bloader_name\x18\x02 \x01(\t\"}\n\x0eLoaderInfoFull\x12\x36\n\x0bloader_type\x18\x01 \x01(\x0e\x32!.cif.management_common.LoaderType\x12\x13\n\x0bloader_name\x18\x02 \x01(\t\x12\x11\n\tgrpc_port\x18\x03 \x01(\x05\x12\x0b\n\x03pid\x18\x04 \x01(\r*q\n\x10\x43hannelDirection\x12\x1c\n\x18\x43HANNELDIRECTION_UNKNOWN\x10\x00\x12\x1e\n\x1a\x43HANNELDIRECTION_PUBLISHER\x10\x01\x12\x1f\n\x1b\x43HANNELDIRECTION_SUBSCRIBER\x10\x02*\xa0\x01\n\x0e\x43hannelPattern\x12\x1a\n\x16\x43HANNELPATTERN_UNKNOWN\x10\x00\x12\x16\n\x12\x43HANNELPATTERN_TAG\x10\x01\x12\x17\n\x13\x43HANNELPATTERN_FIFO\x10\x02\x12\x1c\n\x18\x43HANNELPATTERN_MULTIFIFO\x10\x03\x12#\n\x1f\x43HANNELPATTERN_BACKPRESSUREFIFO\x10\x04*<\n\nLoaderType\x12\x16\n\x12LOADERTYPE_UNKNOWN\x10\x00\x12\x16\n\x12LOADERTYPE_LABVIEW\x10\x01\x62\x06proto3')
 
 _globals = globals()
 _builder.BuildMessageAndEnumDescriptors(DESCRIPTOR, _globals)
 _builder.BuildTopDescriptorsAndMessages(DESCRIPTOR, 'cif_management_common_pb2', _globals)
 if not _descriptor._USE_C_DESCRIPTORS:
   DESCRIPTOR._loaded_options = None
-  _globals['_CHANNELDIRECTION']._serialized_start=2272
-  _globals['_CHANNELDIRECTION']._serialized_end=2385
-  _globals['_CHANNELPATTERN']._serialized_start=2388
-  _globals['_CHANNELPATTERN']._serialized_end=2548
-  _globals['_LOADERTYPE']._serialized_start=2550
-  _globals['_LOADERTYPE']._serialized_end=2610
+  _globals['_CHANNELDIRECTION']._serialized_start=2323
+  _globals['_CHANNELDIRECTION']._serialized_end=2436
+  _globals['_CHANNELPATTERN']._serialized_start=2439
+  _globals['_CHANNELPATTERN']._serialized_end=2599
+  _globals['_LOADERTYPE']._serialized_start=2601
+  _globals['_LOADERTYPE']._serialized_end=2661
   _globals['_PLUGINMETADATA']._serialized_start=72
   _globals['_PLUGINMETADATA']._serialized_end=142
   _globals['_CHANNELS']._serialized_start=144
@@ -47,23 +47,23 @@ if not _descriptor._USE_C_DESCRIPTORS:
   _globals['_CHANNELFILTER']._serialized_start=453
   _globals['_CHANNELFILTER']._serialized_end=633
   _globals['_PLUGINSTATUSDATA']._serialized_start=636
-  _globals['_PLUGINSTATUSDATA']._serialized_end=1252
+  _globals['_PLUGINSTATUSDATA']._serialized_end=1303
   _globals['_PLUGINSTATUSDATA_PLUGINSTATE']._serialized_start=1080
-  _globals['_PLUGINSTATUSDATA_PLUGINSTATE']._serialized_end=1252
-  _globals['_TIMINGSTATISTICS']._serialized_start=1255
-  _globals['_TIMINGSTATISTICS']._serialized_end=1612
-  _globals['_FIFOSTATISTICS']._serialized_start=1615
-  _globals['_FIFOSTATISTICS']._serialized_end=1775
-  _globals['_MONITORDOUBLES']._serialized_start=1777
-  _globals['_MONITORDOUBLES']._serialized_end=1865
-  _globals['_MONITORU64']._serialized_start=1867
-  _globals['_MONITORU64']._serialized_end=1939
-  _globals['_MONITORI64']._serialized_start=1941
-  _globals['_MONITORI64']._serialized_end=2013
-  _globals['_ERROR']._serialized_start=2015
-  _globals['_ERROR']._serialized_end=2052
-  _globals['_LOADERINFO']._serialized_start=2054
-  _globals['_LOADERINFO']._serialized_end=2143
-  _globals['_LOADERINFOFULL']._serialized_start=2145
-  _globals['_LOADERINFOFULL']._serialized_end=2270
+  _globals['_PLUGINSTATUSDATA_PLUGINSTATE']._serialized_end=1303
+  _globals['_TIMINGSTATISTICS']._serialized_start=1306
+  _globals['_TIMINGSTATISTICS']._serialized_end=1663
+  _globals['_FIFOSTATISTICS']._serialized_start=1666
+  _globals['_FIFOSTATISTICS']._serialized_end=1826
+  _globals['_MONITORDOUBLES']._serialized_start=1828
+  _globals['_MONITORDOUBLES']._serialized_end=1916
+  _globals['_MONITORU64']._serialized_start=1918
+  _globals['_MONITORU64']._serialized_end=1990
+  _globals['_MONITORI64']._serialized_start=1992
+  _globals['_MONITORI64']._serialized_end=2064
+  _globals['_ERROR']._serialized_start=2066
+  _globals['_ERROR']._serialized_end=2103
+  _globals['_LOADERINFO']._serialized_start=2105
+  _globals['_LOADERINFO']._serialized_end=2194
+  _globals['_LOADERINFOFULL']._serialized_start=2196
+  _globals['_LOADERINFOFULL']._serialized_end=2321
 # @@protoc_insertion_point(module_scope)

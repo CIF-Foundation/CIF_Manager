@@ -1,0 +1,151 @@
+{
+  "_comment": "Build configuration for the Windows NSIS installer. Edit when new source files must be copied from src/.",
+  "_comment_paths": "source: full path from repository root. destination: full path under Installers/Windows/staging/resource/ (CIF/ layout).",
+  "_comment_usage": "Applied automatically by Installers/Windows/build_nsis.bat via apply_ipk_build_config.py.",
+  "description": "Maps repository source files into the Windows installer resource tree at build time.",
+  "resource_template": "Installers/Windows/resource",
+  "_comment_resource_template": "Static installer template checked into git (Windows configs, examples, plugin metadata, etc.).",
+  "staging_directory": "Installers/Windows/staging/resource",
+  "_comment_staging_directory": "Temporary build tree. Created during each build and listed in .gitignore.",
+  "copies": [
+    { "_comment": "Canonical gRPC protos and license files from src/protos" },
+    {
+      "source": "src/protos/cif_channel_core.proto",
+      "destination": "CIF/protos/cif_channel_core.proto"
+    },
+    {
+      "source": "src/protos/cif_common.proto",
+      "destination": "CIF/protos/cif_common.proto"
+    },
+    {
+      "source": "src/protos/cif_management_common.proto",
+      "destination": "CIF/protos/cif_management_common.proto"
+    },
+    {
+      "source": "src/protos/cif_manager.proto",
+      "destination": "CIF/protos/cif_manager.proto"
+    },
+    {
+      "source": "src/protos/cif_plugin_core.proto",
+      "destination": "CIF/protos/cif_plugin_core.proto"
+    },
+    {
+      "source": "src/protos/cif_plugin_loader.proto",
+      "destination": "CIF/protos/cif_plugin_loader.proto"
+    },
+    {
+      "source": "src/protos/LICENSE",
+      "destination": "CIF/protos/LICENSE"
+    },
+    {
+      "source": "src/protos/README.md",
+      "destination": "CIF/protos/README.md"
+    },
+
+    { "_comment": "Python orchestration client code and generated gRPC stubs from src/Orchestration/Python" },
+    {
+      "source": "src/Orchestration/Python/bat_orchestrate.py",
+      "destination": "CIF/orchestrations/Python/bat_orchestrate.py"
+    },
+    {
+      "source": "src/Orchestration/Python/cif_channel_core_pb2.py",
+      "destination": "CIF/orchestrations/Python/cif_channel_core_pb2.py"
+    },
+    {
+      "source": "src/Orchestration/Python/cif_channel_core_pb2.pyi",
+      "destination": "CIF/orchestrations/Python/cif_channel_core_pb2.pyi"
+    },
+    {
+      "source": "src/Orchestration/Python/cif_channel_core_pb2_grpc.py",
+      "destination": "CIF/orchestrations/Python/cif_channel_core_pb2_grpc.py"
+    },
+    {
+      "source": "src/Orchestration/Python/cif_common_pb2.py",
+      "destination": "CIF/orchestrations/Python/cif_common_pb2.py"
+    },
+    {
+      "source": "src/Orchestration/Python/cif_common_pb2.pyi",
+      "destination": "CIF/orchestrations/Python/cif_common_pb2.pyi"
+    },
+    {
+      "source": "src/Orchestration/Python/cif_common_pb2_grpc.py",
+      "destination": "CIF/orchestrations/Python/cif_common_pb2_grpc.py"
+    },
+    {
+      "source": "src/Orchestration/Python/cif_management_common_pb2.py",
+      "destination": "CIF/orchestrations/Python/cif_management_common_pb2.py"
+    },
+    {
+      "source": "src/Orchestration/Python/cif_management_common_pb2.pyi",
+      "destination": "CIF/orchestrations/Python/cif_management_common_pb2.pyi"
+    },
+    {
+      "source": "src/Orchestration/Python/cif_management_common_pb2_grpc.py",
+      "destination": "CIF/orchestrations/Python/cif_management_common_pb2_grpc.py"
+    },
+    {
+      "source": "src/Orchestration/Python/cif_manager_pb2.py",
+      "destination": "CIF/orchestrations/Python/cif_manager_pb2.py"
+    },
+    {
+      "source": "src/Orchestration/Python/cif_manager_pb2.pyi",
+      "destination": "CIF/orchestrations/Python/cif_manager_pb2.pyi"
+    },
+    {
+      "source": "src/Orchestration/Python/cif_manager_pb2_grpc.py",
+      "destination": "CIF/orchestrations/Python/cif_manager_pb2_grpc.py"
+    },
+    {
+      "source": "src/Orchestration/Python/cif_model_interface_plugin_pb2.py",
+      "destination": "CIF/orchestrations/Python/cif_model_interface_plugin_pb2.py"
+    },
+    {
+      "source": "src/Orchestration/Python/cif_model_interface_plugin_pb2.pyi",
+      "destination": "CIF/orchestrations/Python/cif_model_interface_plugin_pb2.pyi"
+    },
+    {
+      "source": "src/Orchestration/Python/cif_model_interface_plugin_pb2_grpc.py",
+      "destination": "CIF/orchestrations/Python/cif_model_interface_plugin_pb2_grpc.py"
+    },
+    {
+      "source": "src/Orchestration/Python/cif_orchestration_base.py",
+      "destination": "CIF/orchestrations/Python/cif_orchestration_base.py"
+    },
+    {
+      "source": "src/Orchestration/Python/cif_plugin_core_pb2.py",
+      "destination": "CIF/orchestrations/Python/cif_plugin_core_pb2.py"
+    },
+    {
+      "source": "src/Orchestration/Python/cif_plugin_core_pb2.pyi",
+      "destination": "CIF/orchestrations/Python/cif_plugin_core_pb2.pyi"
+    },
+    {
+      "source": "src/Orchestration/Python/cif_plugin_core_pb2_grpc.py",
+      "destination": "CIF/orchestrations/Python/cif_plugin_core_pb2_grpc.py"
+    },
+    {
+      "source": "src/Orchestration/Python/cif_tag_monitor_plugin_pb2.py",
+      "destination": "CIF/orchestrations/Python/cif_tag_monitor_plugin_pb2.py"
+    },
+    {
+      "source": "src/Orchestration/Python/cif_tag_monitor_plugin_pb2.pyi",
+      "destination": "CIF/orchestrations/Python/cif_tag_monitor_plugin_pb2.pyi"
+    },
+    {
+      "source": "src/Orchestration/Python/cif_tag_monitor_plugin_pb2_grpc.py",
+      "destination": "CIF/orchestrations/Python/cif_tag_monitor_plugin_pb2_grpc.py"
+    },
+    {
+      "source": "src/Orchestration/Python/orchestrate.py",
+      "destination": "CIF/orchestrations/Python/orchestrate.py"
+    },
+    {
+      "source": "src/Orchestration/Python/readme.md",
+      "destination": "CIF/orchestrations/Python/readme.md"
+    },
+    {
+      "source": "src/Orchestration/Python/Test_orch.py",
+      "destination": "CIF/orchestrations/Python/Test_orch.py"
+    }
+  ]
+}

@@ -1,2 +1,20 @@
+# Remove the python3 .pth hook added by postinst so orchestration modules are not left
+# on sys.path after the CIF package is uninstalled.
+if command -v python3 >/dev/null 2>&1; then
+    SITE_PACKAGES="$(python3 -c 'import site; print(site.getsitepackages()[0])' 2>/dev/null || true)"
+    if [ -n "${SITE_PACKAGES}" ] && [ -f "${SITE_PACKAGES}/cif_orchestration.pth" ]; then
+        rm -f "${SITE_PACKAGES}/cif_orchestration.pth"
+    fi
+fi
+
+# Stop and disable the cifmanager init.d service before removing CIF files.
+CIFMANAGER_INIT="/etc/init.d/cifmanager"
+if [ -f "${CIFMANAGER_INIT}" ]; then
+    "${CIFMANAGER_INIT}" stop >/dev/null 2>&1 || true
+    if command -v update-rc.d >/dev/null 2>&1; then
+        update-rc.d -f cifmanager remove >/dev/null 2>&1 || true
+    fi
+fi
+
 unlink /usr/local/cif/manager/cif_manager_startup.rtexe
 unlink /usr/local/cif/manager/loaders/cif_plugin_loader_startup.rtexe 

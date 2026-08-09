@@ -1,6 +1,14 @@
-import sys
-sys.path.append(r'C:\Users\Public\Documents\CIF\orchestrations\Python')
-import cif_orchestration_base
+# Import CIF orchestration helpers.
+# RT install: postinst writes /usr/local/cif/orchestrations/Python into a python3
+#   site-packages .pth file (cif_orchestration.pth), so imports work without sys.path.
+# Windows install: use the default Public Documents path below when .pth is not present.
+try:
+    import cif_orchestration_base
+except ImportError:
+    import sys
+    sys.path.append(r"C:\Users\Public\Documents\CIF\orchestrations\Python")
+    import cif_orchestration_base
+
 import time
 
 #Set the IP address and port of the CIF manager on the target

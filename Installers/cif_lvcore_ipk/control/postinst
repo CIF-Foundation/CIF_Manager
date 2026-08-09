@@ -21,6 +21,61 @@ chmod -R 777 /var/local/cif/logs
 chmod 755 /usr/local/bin/error_log_rotator.sh
 chmod 644 /etc/logrotate.d/cif-logs
 
+# Register CIF orchestration Python modules with the system python3 interpreter.
+# A .pth file in site-packages is read on every python3 startup and adds each line to
+# sys.path, so user scripts can "import cif_orchestration_base" without editing sys.path.
+CIF_ORCH_PYTHON="/usr/local/cif/orchestrations/Python"
+if command -v python3 >/dev/null 2>&1; then
+    SITE_PACKAGES="$(python3 -c 'import site; print(site.getsitepackages()[0])' 2>/dev/null || true)"
+    if [ -n "${SITE_PACKAGES}" ] && [ -d "${SITE_PACKAGES}" ]; then
+        echo "${CIF_ORCH_PYTHON}" > "${SITE_PACKAGES}/cif_orchestration.pth"
+        chmod 644 "${SITE_PACKAGES}/cif_orchestration.pth"
+        echo "Registered ${CIF_ORCH_PYTHON} for python3 imports"
+    else
+        echo "Warning: could not determine python3 site-packages; set PYTHONPATH=${CIF_ORCH_PYTHON} for orchestration imports"
+    fi
+else
+    echo "Warning: python3 not found; skipped cif_orchestration.pth registration"
+fi
+
+# Install Python gRPC runtime packages required by orchestration scripts and
+# cif_manager_destroy. python3 and python3-pip are declared in control/Depends.
+# Prefer grpcio from the NI opkg feed; fall back to pip when no opkg package matches.
+if command -v python3 >/dev/null 2>&1; then
+    if python3 -c "import grpc" 2>/dev/null; then
+        echo "python3 grpc module already installed"
+    else
+        GRPC_INSTALLED=0
+        if command -v opkg >/dev/null 2>&1; then
+            opkg update >/dev/null 2>&1 || echo "Warning: opkg update failed; continuing with local package install attempts"
+            for GRPC_OPKG_PKG in python3-grpcio python3-grpc python-grpcio grpcio; do
+                if opkg install "${GRPC_OPKG_PKG}" >/dev/null 2>&1; then
+                    if python3 -c "import grpc" 2>/dev/null; then
+                        echo "Installed grpcio via opkg package ${GRPC_OPKG_PKG}"
+                        GRPC_INSTALLED=1
+                        break
+                    fi
+                fi
+            done
+        fi
+
+        if [ "${GRPC_INSTALLED}" -eq 0 ] && python3 -m pip --version >/dev/null 2>&1; then
+            if python3 -m pip install grpcio protobuf >/dev/null 2>&1; then
+                if python3 -c "import grpc" 2>/dev/null; then
+                    echo "Installed grpcio via pip"
+                    GRPC_INSTALLED=1
+                fi
+            fi
+        fi
+
+        if [ "${GRPC_INSTALLED}" -eq 0 ]; then
+            echo "Warning: grpcio is not available to python3; install python3-grpcio from opkg or run: python3 -m pip install grpcio protobuf"
+        fi
+    fi
+else
+    echo "Warning: python3 not found; skipped grpcio installation"
+fi
+
 # Get the loaded version of labview realtime
 lv_version="$(opkg list-installed | grep labview-realtime)"
 # Create a regular expression to search for the version number (the first number in the message)
@@ -49,6 +104,34 @@ if [[ $lv_version =~ $re ]]
     fi
 else
     echo "LabVIEW Version could not be parsed.  Check the version parsing, the script may need to be updated"
+fi
+
+# Install and enable the cifmanager init.d service (boot-time CIF Manager start/stop).
+# Copied from src/Services/init.d/cifmanager into /etc/init.d/cifmanager by the IPK.
+#
+# Boot ordering on NI Linux RT uses System V init (/etc/rc?.d/ symlinks created by
+# update-rc.d + insserv). The init script declares Required-Start: nilvrt so
+# cifmanager starts after the primary LabVIEW RT service. Sequence 99 starts
+# cifmanager late in the boot process; sequence 20 stops it early on shutdown.
+CIFMANAGER_INIT="/etc/init.d/cifmanager"
+if [ -f "${CIFMANAGER_INIT}" ]; then
+    chmod 755 "${CIFMANAGER_INIT}"
+    if command -v update-rc.d >/dev/null 2>&1; then
+        update-rc.d -f cifmanager remove >/dev/null 2>&1 || true
+        update-rc.d cifmanager defaults 99 20
+        echo "Enabled cifmanager for runlevels 2-5 (starts after nilvrt, sequence 99)"
+    else
+        echo "Warning: update-rc.d not found; install ${CIFMANAGER_INIT} boot links manually"
+    fi
+
+    # Start the manager immediately after install (symlinks above must exist first).
+    if "${CIFMANAGER_INIT}" start; then
+        echo "Started cifmanager service"
+    else
+        echo "Warning: cifmanager start failed; enable boot links succeeded — try: ${CIFMANAGER_INIT} start"
+    fi
+else
+    echo "Warning: ${CIFMANAGER_INIT} not found; cifmanager service was not installed"
 fi
 
 ldconfig

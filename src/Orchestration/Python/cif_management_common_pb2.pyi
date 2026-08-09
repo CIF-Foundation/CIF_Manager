@@ -99,12 +99,16 @@ class PluginStatusData(_message.Message):
         PLUGINSTATE_RUNNING: _ClassVar[PluginStatusData.PluginState]
         PLUGINSTATE_CLEANINGUP: _ClassVar[PluginStatusData.PluginState]
         PLUGINSTATE_DESTROYING: _ClassVar[PluginStatusData.PluginState]
+        PLUGINSTATE_PREPARED: _ClassVar[PluginStatusData.PluginState]
+        PLUGINSTATE_FTE_RUN: _ClassVar[PluginStatusData.PluginState]
     PLUGINSTATE_UNKNOWN: PluginStatusData.PluginState
     PLUGINSTATE_CREATING: PluginStatusData.PluginState
     PLUGINSTATE_LISTENING: PluginStatusData.PluginState
     PLUGINSTATE_RUNNING: PluginStatusData.PluginState
     PLUGINSTATE_CLEANINGUP: PluginStatusData.PluginState
     PLUGINSTATE_DESTROYING: PluginStatusData.PluginState
+    PLUGINSTATE_PREPARED: PluginStatusData.PluginState
+    PLUGINSTATE_FTE_RUN: PluginStatusData.PluginState
     STATE_FIELD_NUMBER: _ClassVar[int]
     TIMING_STATISTICS_FIELD_NUMBER: _ClassVar[int]
     FIFO_STATISTICS_FIELD_NUMBER: _ClassVar[int]

@@ -1,0 +1,34 @@
+# Line endings for Linux / RT deployment
+* text=auto
+
+# Shell, Python, and config deployed to Linux must stay LF
+*.sh text eol=lf
+*.py text eol=lf
+*.pyi text eol=lf
+*.conf text eol=lf
+*.proto text eol=lf
+*.md text eol=lf
+*.info text eol=lf
+*.json text eol=lf
+
+# IPK package text files
+Installers/cif_lvcore_ipk/control/** text eol=lf
+Installers/cif_lvcore_ipk/data/** text eol=lf
+
+# Source trees copied into installers at build time
+src/Orchestration/** text eol=lf
+src/protos/** text eol=lf
+src/RT Loader/** text eol=lf
+src/Services/cif_manager_destroy text eol=lf
+src/Services/init.d/* text eol=lf
+
+# Binary artifacts must not be line-ending normalized
+*.rtexe binary
+*.so binary
+*.lvlibp binary
+*.dll binary
+*.exe binary
+*.ipk binary
+*.deb binary
+*.png binary
+*.ico binary

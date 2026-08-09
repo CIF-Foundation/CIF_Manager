@@ -8,4 +8,8 @@
     create 0644 root root
     missingok
     notifempty
+    sharedscripts
+    postrotate
+        /bin/kill -HUP $(/bin/pidof syslog-ng) 2>/dev/null || true
+    endscript
 }

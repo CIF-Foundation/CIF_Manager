@@ -133,7 +133,9 @@ message AbortAllPluginsResponse {
 
 message DestroyRequest {}
 
-message DestroyResponse {}
+message DestroyResponse {
+  uint32 manager_pid = 1;
+}
 
 message PingRequest {}
 

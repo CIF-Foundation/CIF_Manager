@@ -1,0 +1,156 @@
+#!/usr/bin/env python3
+"""Call cif.manager.Manager/Destroy on the local CIF Manager.
+
+Single-file stop client for the cifmanager init.d service. Reads port and optional
+TLS settings from cif.conf, then issues one gRPC Destroy RPC.
+
+Runtime requirements on NI Linux RT:
+  - python3
+  - grpcio
+
+No generated protobuf stubs or libgrpc++.so install is required.
+"""
+
+from __future__ import annotations
+
+import argparse
+import configparser
+import os
+import sys
+
+DEFAULT_CONF = "/usr/local/cif/etc/cif.conf"
+DEFAULT_HOST = "localhost"
+DEFAULT_MANAGER_PORT = 15882
+DESTROY_METHOD = "/cif.manager.Manager/Destroy"
+
+
+def _strip_quotes(value: str) -> str:
+    value = value.strip()
+    if len(value) >= 2 and value[0] == '"' and value[-1] == '"':
+        return value[1:-1]
+    return value
+
+
+def load_cif_conf(path: str) -> tuple[int, str]:
+    """Return (manager_port, server_certificate_file) from [Security] in cif.conf."""
+    parser = configparser.ConfigParser()
+    read_ok = parser.read(path)
+    if not read_ok:
+        raise FileNotFoundError(f"Could not read config file: {path}")
+
+    section = "Security"
+    port = DEFAULT_MANAGER_PORT
+    if parser.has_option(section, "Manager_Port"):
+        port = int(parser.get(section, "Manager_Port").strip())
+
+    cert_file = ""
+    if parser.has_option(section, "Server_Certificate_File"):
+        cert_file = _strip_quotes(parser.get(section, "Server_Certificate_File"))
+
+    return port, cert_file
+
+
+def create_channel(host: str, port: int, cert_file: str):
+    import grpc
+
+    target = f"{host}:{port}"
+    if cert_file:
+        with open(cert_file, "rb") as cert:
+            creds = grpc.ssl_channel_credentials(root_certificates=cert.read())
+        return grpc.secure_channel(target, creds)
+    return grpc.insecure_channel(target)
+
+
+def _read_varint(data: bytes, index: int) -> tuple[int, int]:
+    value = 0
+    shift = 0
+    while index < len(data):
+        byte = data[index]
+        index += 1
+        value |= (byte & 0x7F) << shift
+        if not (byte & 0x80):
+            return value, index
+        shift += 7
+    raise ValueError("truncated varint in DestroyResponse")
+
+
+def parse_destroy_response(data: bytes) -> int:
+    """Parse DestroyResponse { uint32 manager_pid = 1; } without generated stubs."""
+    manager_pid = 0
+    index = 0
+    while index < len(data):
+        tag, index = _read_varint(data, index)
+        field_number = tag >> 3
+        wire_type = tag & 0x07
+        if field_number == 1 and wire_type == 0:
+            manager_pid, index = _read_varint(data, index)
+        elif wire_type == 0:
+            _, index = _read_varint(data, index)
+        elif wire_type == 1:
+            index += 8
+        elif wire_type == 2:
+            length, index = _read_varint(data, index)
+            index += length
+        elif wire_type == 5:
+            index += 4
+        else:
+            raise ValueError(f"unsupported wire type {wire_type} in DestroyResponse")
+    return manager_pid
+
+
+def call_destroy(host: str, conf_path: str) -> int:
+    try:
+        import grpc
+    except ImportError:
+        print("Could not import grpc. Install grpcio on the target.", file=sys.stderr)
+        return 1
+
+    try:
+        port, cert_file = load_cif_conf(conf_path)
+    except (FileNotFoundError, ValueError) as exc:
+        print(exc, file=sys.stderr)
+        return 1
+
+    if cert_file and not os.path.isfile(cert_file):
+        print(f"Could not read certificate file: {cert_file}", file=sys.stderr)
+        return 1
+
+    try:
+        with create_channel(host, port, cert_file) as channel:
+            destroy = channel.unary_unary(
+                DESTROY_METHOD,
+                request_serializer=lambda _: b"",
+                response_deserializer=parse_destroy_response,
+            )
+            manager_pid = destroy(b"")
+    except grpc.RpcError as exc:
+        print(f"Destroy RPC failed: {exc.code()} {exc.details()}", file=sys.stderr)
+        return 1
+    except ValueError as exc:
+        print(f"Destroy RPC returned invalid response: {exc}", file=sys.stderr)
+        return 1
+
+    print("Destroy accepted" + (f" (manager_pid={manager_pid})" if manager_pid else ""))
+    return 0
+
+
+def main() -> int:
+    parser = argparse.ArgumentParser(
+        description="Call cif.manager.Manager/Destroy on the local CIF Manager."
+    )
+    parser.add_argument(
+        "--config",
+        default=os.environ.get("CIF_CONF", DEFAULT_CONF),
+        help=f"cif.conf path (default: {DEFAULT_CONF}, or CIF_CONF env)",
+    )
+    parser.add_argument(
+        "--host",
+        default=DEFAULT_HOST,
+        help=f"Manager host (default: {DEFAULT_HOST})",
+    )
+    args = parser.parse_args()
+    return call_destroy(args.host, args.config)
+
+
+if __name__ == "__main__":
+    sys.exit(main())

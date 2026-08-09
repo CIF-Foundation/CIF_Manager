@@ -1,0 +1,177 @@
+{
+  "_comment": "Build configuration for cif_lvcore_ipk. Edit this file when new source files must be copied into the package.",
+  "_comment_paths": "source: full path from repository root. destination: full path from ipk package root (inside cif_lvcore_ipk/).",
+  "_comment_usage": "Run Installers/build_cif_lvcore_ipk.bat (Windows) or bash Installers/build_cif_lvcore_ipk.sh (WSL/Linux).",
+  "description": "Maps repository source files into the cif_lvcore_ipk package at build time. Paths are relative to the repository root.",
+  "ipk_template": "Installers/cif_lvcore_ipk",
+  "_comment_ipk_template": "Static package template checked into git (binaries, conf, control scripts, etc.).",
+  "staging_directory": "Installers/staging/cif_lvcore_ipk",
+  "_comment_staging_directory": "Temporary build tree. Created during each build and listed in .gitignore.",
+  "output_directory": "Installers/output",
+  "_comment_output_directory": "Final .ipk file is written here as cif-lvcore.<version>.ipk.",
+  "copies": [
+    { "_comment": "Canonical gRPC protos and license files from src/protos" },
+    {
+      "source": "src/protos/cif_channel_core.proto",
+      "destination": "data/usr/local/cif/protos/cif_channel_core.proto"
+    },
+    {
+      "source": "src/protos/cif_common.proto",
+      "destination": "data/usr/local/cif/protos/cif_common.proto"
+    },
+    {
+      "source": "src/protos/cif_management_common.proto",
+      "destination": "data/usr/local/cif/protos/cif_management_common.proto"
+    },
+    {
+      "source": "src/protos/cif_manager.proto",
+      "destination": "data/usr/local/cif/protos/cif_manager.proto"
+    },
+    {
+      "source": "src/protos/cif_plugin_core.proto",
+      "destination": "data/usr/local/cif/protos/cif_plugin_core.proto"
+    },
+    {
+      "source": "src/protos/cif_plugin_loader.proto",
+      "destination": "data/usr/local/cif/protos/cif_plugin_loader.proto"
+    },
+    {
+      "source": "src/protos/LICENSE",
+      "destination": "data/usr/local/cif/protos/LICENSE"
+    },
+    {
+      "source": "src/protos/README.md",
+      "destination": "data/usr/local/cif/protos/README.md"
+    },
+
+    { "_comment": "Python orchestration client code and generated gRPC stubs from src/Orchestration/Python" },
+    {
+      "source": "src/Orchestration/Python/bat_orchestrate.py",
+      "destination": "data/usr/local/cif/orchestrations/Python/bat_orchestrate.py"
+    },
+    {
+      "source": "src/Orchestration/Python/cif_channel_core_pb2.py",
+      "destination": "data/usr/local/cif/orchestrations/Python/cif_channel_core_pb2.py"
+    },
+    {
+      "source": "src/Orchestration/Python/cif_channel_core_pb2.pyi",
+      "destination": "data/usr/local/cif/orchestrations/Python/cif_channel_core_pb2.pyi"
+    },
+    {
+      "source": "src/Orchestration/Python/cif_channel_core_pb2_grpc.py",
+      "destination": "data/usr/local/cif/orchestrations/Python/cif_channel_core_pb2_grpc.py"
+    },
+    {
+      "source": "src/Orchestration/Python/cif_common_pb2.py",
+      "destination": "data/usr/local/cif/orchestrations/Python/cif_common_pb2.py"
+    },
+    {
+      "source": "src/Orchestration/Python/cif_common_pb2.pyi",
+      "destination": "data/usr/local/cif/orchestrations/Python/cif_common_pb2.pyi"
+    },
+    {
+      "source": "src/Orchestration/Python/cif_common_pb2_grpc.py",
+      "destination": "data/usr/local/cif/orchestrations/Python/cif_common_pb2_grpc.py"
+    },
+    {
+      "source": "src/Orchestration/Python/cif_management_common_pb2.py",
+      "destination": "data/usr/local/cif/orchestrations/Python/cif_management_common_pb2.py"
+    },
+    {
+      "source": "src/Orchestration/Python/cif_management_common_pb2.pyi",
+      "destination": "data/usr/local/cif/orchestrations/Python/cif_management_common_pb2.pyi"
+    },
+    {
+      "source": "src/Orchestration/Python/cif_management_common_pb2_grpc.py",
+      "destination": "data/usr/local/cif/orchestrations/Python/cif_management_common_pb2_grpc.py"
+    },
+    {
+      "source": "src/Orchestration/Python/cif_manager_pb2.py",
+      "destination": "data/usr/local/cif/orchestrations/Python/cif_manager_pb2.py"
+    },
+    {
+      "source": "src/Orchestration/Python/cif_manager_pb2.pyi",
+      "destination": "data/usr/local/cif/orchestrations/Python/cif_manager_pb2.pyi"
+    },
+    {
+      "source": "src/Orchestration/Python/cif_manager_pb2_grpc.py",
+      "destination": "data/usr/local/cif/orchestrations/Python/cif_manager_pb2_grpc.py"
+    },
+    {
+      "source": "src/Orchestration/Python/cif_model_interface_plugin_pb2.py",
+      "destination": "data/usr/local/cif/orchestrations/Python/cif_model_interface_plugin_pb2.py"
+    },
+    {
+      "source": "src/Orchestration/Python/cif_model_interface_plugin_pb2.pyi",
+      "destination": "data/usr/local/cif/orchestrations/Python/cif_model_interface_plugin_pb2.pyi"
+    },
+    {
+      "source": "src/Orchestration/Python/cif_model_interface_plugin_pb2_grpc.py",
+      "destination": "data/usr/local/cif/orchestrations/Python/cif_model_interface_plugin_pb2_grpc.py"
+    },
+    {
+      "source": "src/Orchestration/Python/cif_orchestration_base.py",
+      "destination": "data/usr/local/cif/orchestrations/Python/cif_orchestration_base.py"
+    },
+    {
+      "source": "src/Orchestration/Python/cif_plugin_core_pb2.py",
+      "destination": "data/usr/local/cif/orchestrations/Python/cif_plugin_core_pb2.py"
+    },
+    {
+      "source": "src/Orchestration/Python/cif_plugin_core_pb2.pyi",
+      "destination": "data/usr/local/cif/orchestrations/Python/cif_plugin_core_pb2.pyi"
+    },
+    {
+      "source": "src/Orchestration/Python/cif_plugin_core_pb2_grpc.py",
+      "destination": "data/usr/local/cif/orchestrations/Python/cif_plugin_core_pb2_grpc.py"
+    },
+    {
+      "source": "src/Orchestration/Python/cif_tag_monitor_plugin_pb2.py",
+      "destination": "data/usr/local/cif/orchestrations/Python/cif_tag_monitor_plugin_pb2.py"
+    },
+    {
+      "source": "src/Orchestration/Python/cif_tag_monitor_plugin_pb2.pyi",
+      "destination": "data/usr/local/cif/orchestrations/Python/cif_tag_monitor_plugin_pb2.pyi"
+    },
+    {
+      "source": "src/Orchestration/Python/cif_tag_monitor_plugin_pb2_grpc.py",
+      "destination": "data/usr/local/cif/orchestrations/Python/cif_tag_monitor_plugin_pb2_grpc.py"
+    },
+    {
+      "source": "src/Orchestration/Python/orchestrate.py",
+      "destination": "data/usr/local/cif/orchestrations/Python/orchestrate.py"
+    },
+    {
+      "source": "src/Orchestration/Python/readme.md",
+      "destination": "data/usr/local/cif/orchestrations/Python/readme.md"
+    },
+    {
+      "source": "src/Orchestration/Python/Test_orch.py",
+      "destination": "data/usr/local/cif/orchestrations/Python/Test_orch.py"
+    },
+
+    { "_comment": "Service utility scripts deployed to /usr/local/bin" },
+    {
+      "source": "src/Services/cif_manager_destroy",
+      "destination": "data/usr/local/bin/cif_manager_destroy"
+    },
+    {
+      "source": "src/Services/init.d/cifmanager",
+      "destination": "data/etc/init.d/cifmanager"
+    },
+
+    { "_comment": "RT loader script and lvrt overlay configs from src/RT Loader" },
+    {
+      "source": "src/RT Loader/launch_lvrt_cif.sh",
+      "destination": "data/usr/local/cif/manager/loaders/launch_lvrt_cif.sh"
+    },
+    {
+      "source": "src/RT Loader/lvrt_cif_manager.conf",
+      "destination": "data/usr/local/cif/manager/loaders/lvrt_cif_manager.conf"
+    },
+    {
+      "source": "src/RT Loader/lvrt_cif_pluginloader.conf",
+      "destination": "data/usr/local/cif/manager/loaders/lvrt_cif_pluginloader.conf"
+    }
+  ]
+}

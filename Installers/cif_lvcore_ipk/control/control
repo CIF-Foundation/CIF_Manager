@@ -1,6 +1,7 @@
 Package: cif-lvcore
-Version: 2.2.2.0
+Version: 2.2.3.0
 Architecture: core2-64
 Maintainer: todd@ext.applied.co
+Depends: python3, python3-pip
 Description: This provides the required libraries to CIF support for LabVIEW.
 Priority: optional
