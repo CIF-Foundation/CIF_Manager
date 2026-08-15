@@ -668,6 +668,7 @@ AddOutputFilter chunkFilter
 				<Item Name="CIF_Manager_client.lvlib" Type="Library" URL="/&lt;vilib&gt;/CIF Foundation/CIF Core/CIFPluginManager/gRPC/CIF_Manager_client/CIF_Manager_client.lvlib"/>
 				<Item Name="CIFCorePlugin_client.lvlib" Type="Library" URL="/&lt;vilib&gt;/CIF Foundation/CIF Core/CIFCore/Grpc/CIFCorePlugin_client/CIFCorePlugin_client.lvlib"/>
 				<Item Name="CIFCoreChannel_client.lvlib" Type="Library" URL="/&lt;vilib&gt;/CIF Foundation/CIF Core/CIFCore/Grpc/CIFCoreChannel_client/CIFCoreChannel_client.lvlib"/>
+				<Item Name="Service Template.lvlib" Type="Library" URL="/&lt;vilib&gt;/gRPC/gRPC Server and Client Template [2]/Server Template/Service Template.lvlib"/>
 			</Item>
 			<Item Name="CIF_Manager_server.lvlib" Type="Library" URL="../../CIFPluginManager/gRPC/CIF_Manager_server/CIF_Manager_server.lvlib"/>
 			<Item Name="CIFPluginManager.lvclass" Type="LVClass" URL="../../CIFPluginManager/CIFPluginManager.lvclass"/>
@@ -698,9 +699,9 @@ AddOutputFilter chunkFilter
 				<Property Name="Bld_version.build" Type="Int">4</Property>
 				<Property Name="Bld_version.major" Type="Int">2</Property>
 				<Property Name="Bld_version.minor" Type="Int">2</Property>
-				<Property Name="Bld_version.patch" Type="Int">3</Property>
-				<Property Name="Destination[0].destName" Type="Str">PluginManager.2.2.3.lvlibp</Property>
-				<Property Name="Destination[0].path" Type="Path">/rt/PluginManager.2.2.3.lvlibp</Property>
+				<Property Name="Bld_version.patch" Type="Int">4</Property>
+				<Property Name="Destination[0].destName" Type="Str">PluginManager.2.2.4.lvlibp</Property>
+				<Property Name="Destination[0].path" Type="Path">/rt/PluginManager.2.2.4.lvlibp</Property>
 				<Property Name="Destination[0].path.type" Type="Str">&lt;none&gt;</Property>
 				<Property Name="Destination[0].preserveHierarchy" Type="Bool">true</Property>
 				<Property Name="Destination[0].type" Type="Str">App</Property>
@@ -708,7 +709,7 @@ AddOutputFilter chunkFilter
 				<Property Name="Destination[1].path" Type="Path">/rt</Property>
 				<Property Name="Destination[1].path.type" Type="Str">&lt;none&gt;</Property>
 				<Property Name="DestinationCount" Type="Int">2</Property>
-				<Property Name="Source[0].itemID" Type="Str">{CEFB59CC-9C49-4AB6-AAC1-92327FADDD2C}</Property>
+				<Property Name="Source[0].itemID" Type="Str">{72DFC8EB-C112-4D3C-AA6B-ECE64B7D64C1}</Property>
 				<Property Name="Source[0].type" Type="Str">Container</Property>
 				<Property Name="Source[1].destinationIndex" Type="Int">0</Property>
 				<Property Name="Source[1].itemID" Type="Ref">/RT PXI Target/PluginManager.lvlib</Property>
@@ -724,7 +725,7 @@ AddOutputFilter chunkFilter
 				<Property Name="TgtF_legalCopyright" Type="Str">Copyright © 2024 </Property>
 				<Property Name="TgtF_productName" Type="Str">PluginManagerRT</Property>
 				<Property Name="TgtF_targetfileGUID" Type="Str">{6DA0406C-9AB0-4143-8ABB-FB8A9909FCC3}</Property>
-				<Property Name="TgtF_targetfileName" Type="Str">PluginManager.2.2.3.lvlibp</Property>
+				<Property Name="TgtF_targetfileName" Type="Str">PluginManager.2.2.4.lvlibp</Property>
 				<Property Name="TgtF_versionIndependent" Type="Bool">true</Property>
 			</Item>
 			<Item Name="CIF_Manager_Startup" Type="{69A947D5-514E-4E75-818E-69657C0547D8}">

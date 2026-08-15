@@ -89,7 +89,7 @@ fi
 
 mkdir -p "${OUTPUT_DIR}"
 chmod +x "${OPKG_BUILD}"
-"${OPKG_BUILD}" -o 0 -g 0 "${IPK_DIR}" "${OUTPUT_DIR}" >&2
+sh "${OPKG_BUILD}" -o 0 -g 0 "${IPK_DIR}" "${OUTPUT_DIR}" >&2
 
 IPK_FILENAME="${OUTPUT_DIR}/${PKG}_${VERSION}_${ARCH}.ipk"
 if [[ ! -f "${IPK_FILENAME}" ]]; then
