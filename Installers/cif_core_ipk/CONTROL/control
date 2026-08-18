@@ -1,5 +1,5 @@
 Package: cif-core
-Version: 2.2.4.0
+Version: 2.2.5.0
 Architecture: core2-64
 Maintainer: todd.walter@domeautomation.com
 Depends: python3, python3-pip, cif-fixnigrpcpath (= 0.1.1.0), cif-ni-cipc (= 0.1.1.0)

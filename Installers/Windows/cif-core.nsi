@@ -17,7 +17,7 @@
 !define MUI_UNICON "cif_icon.ico"
 
 !define PRODUCT_NAME "CIF Core"
-!define PRODUCT_VERSION "2.2.4.0"
+!define PRODUCT_VERSION "2.2.5.0"
 !define PRODUCT_PUBLISHER "Dome Automation"
 !define PRODUCT_UNINST_KEY "Software\Microsoft\Windows\CurrentVersion\Uninstall\CIF-CORE"
 !define INSTALL_DIR "C:\Users\Public\Documents"
